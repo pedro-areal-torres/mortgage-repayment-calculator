@@ -37,7 +37,7 @@ const resources = {
   pt: {
     translation: {
       'Mortgage Calculator':
-        'Esta ferramenta apresenta-lhe diferentes cenários no pagamento do seu  calcular o valor da prestação do crédito habitação antecipado',
+        'Esta ferramenta apresenta-lhe diferentes cenários para a gestão do seu crédito habitação',
       'Amount in Debt': 'Capital em dívida',
       'Annual Interest Rate': 'Taxa de Juro',
       'Payment Term (months)': 'Prazo de Pagamento (meses)',
@@ -47,9 +47,13 @@ const resources = {
       'Interest Paid': 'Juros',
       'Principal Paid': ' Pago',
       'Remaining Debt': 'Dívida',
-      'Expected Return SP': 'Retorno médio S&P500',
+      'Expected Return SP': 'Retorno médio S&P 500',
       'Expected Repayment every 12 months':
         'Amortização estimada a cada 12 meses',
+      'Return on Repayment': 'Rentabilidade',
+      'Mortgage scenarios': 'Cenários',
+      'Mortgage Without Repayments': 'Sem Amortizações e Sem Investir',
+      Repayment: 'Amortização',
     },
   },
 };
