@@ -6,12 +6,20 @@ import { Button } from '../ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '../ui/form';
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+
 import { Input } from '../ui/input';
 import { useTranslation } from 'react-i18next';
 import { calculateMortgagePaymentDetails } from '../../utils/calculator.utils';
@@ -22,12 +30,16 @@ interface Props {
 }
 
 const formSchema = z.object({
-  debt: z.coerce.number(),
-  interest: z.coerce.number(),
-  term: z.coerce.number().gte(0),
-  repayment: z.coerce.number().gte(0),
-  spAvg: z.coerce.number().gte(0),
-  //.transform((val) => (val === undefined ? null : val)),
+  yearPurchase: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
+  amountPaid: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
+  debt: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
+  interest: z.union([z.nan(), z.coerce.number().positive().min(1)]),
+  term: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
+  repayment: z
+    .union([z.nan(), z.coerce.number().int().positive().min(1)])
+    .optional(),
+  spAvg: z.union([z.nan(), z.coerce.number().positive().min(1)]),
+  frequency: z.string(),
 });
 
 export default function CalculatorForm({ setCalculationDetails }: Props) {
@@ -38,23 +50,31 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const { debt, interest, term, repayment, spAvg } = values;
-
-    const costNoRepayments = calculateMortgagePaymentDetails(
+    const {
+      yearPurchase,
+      amountPaid,
       debt,
       interest,
       term,
-      spAvg
-    );
+      repayment,
+      spAvg,
+      frequency,
+    } = values;
 
-    const costWithRepayments = calculateMortgagePaymentDetails(
+    const calculation = calculateMortgagePaymentDetails(
       debt,
       interest,
       term,
       spAvg,
+      yearPurchase,
+      amountPaid,
+      Number(frequency),
       repayment
     );
-    setCalculationDetails({ costNoRepayments, costWithRepayments });
+
+    console.log({ calculation });
+
+    setCalculationDetails(calculation);
   }
 
   return (
@@ -63,6 +83,54 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col justify-start w-full gap-4"
       >
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
+          <FormField
+            control={form.control}
+            name="yearPurchase"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('Year of Purchase')}</FormLabel>
+                <FormControl>
+                  <div className={cn('relative w-full rounded-md')}>
+                    <Input
+                      type="number"
+                      placeholder="2024"
+                      {...field}
+                      className="flex w-full flex-col"
+                    />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                      <span className="text-gray-500 sm:text-sm">€</span>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="amountPaid"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('Amount Paid')}</FormLabel>
+                <FormControl>
+                  <div className={cn('relative w-full rounded-md')}>
+                    <Input
+                      type="number"
+                      placeholder="170000"
+                      {...field}
+                      className="flex w-full flex-col"
+                    />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                      <span className="text-gray-500 sm:text-sm">€</span>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
           <FormField
             control={form.control}
@@ -107,7 +175,6 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     </div>
                   </div>
                 </FormControl>
-                <FormDescription>Spread + Euribor</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -139,7 +206,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     <Input
                       type="number"
                       step="any"
-                      placeholder="3000"
+                      placeholder="500"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -154,17 +221,43 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
           />
           <FormField
             control={form.control}
+            name="frequency"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t('Frequency')}</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder={''} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="12">{t('Anual')}</SelectItem>
+                    <SelectItem value="24">{t('2 by 2 y')}</SelectItem>
+                    <SelectItem value="36">{t('3 by 3 y')}</SelectItem>
+                    <SelectItem value="60">{t('5 by 5 y')}</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="spAvg"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t('Expected Return SP')}</FormLabel>
+                <FormLabel>{t('Expected Return')}</FormLabel>
                 <FormControl>
                   <div className={cn('relative w-full rounded-md')}>
                     <Input
                       type="number"
                       step="any"
                       placeholder="shadcn"
-                      defaultValue="5.68"
+                      defaultValue={5.9}
                       {...field}
                       className="flex w-full flex-col"
                     />
