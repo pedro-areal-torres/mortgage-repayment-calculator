@@ -102,17 +102,17 @@ export function calculateMortgagePaymentDetails(
   return {
     noAction: {
       ...noActionDetails,
-      totalAssets: totalAssetsNoAction,
+      totalAssets: parseFloat(totalAssetsNoAction.toFixed(2)),
       totalSaved: 0,
     },
     onlyRepayment: {
       ...onlyRepaymentDetails,
-      totalAssets: totalAssetsRepayment,
-      totalSaved: totalSavedRepayment,
+      totalAssets: parseFloat(totalAssetsRepayment.toFixed(2)),
+      totalSaved: parseFloat(totalSavedRepayment.toFixed(2)),
     },
     onlyInvesting: {
       ...onlyInvestingDetails,
-      totalAssets: totalAssetsInvesting,
+      totalAssets: parseFloat(totalAssetsInvesting.toFixed(2)),
     },
   };
 }
@@ -202,12 +202,14 @@ function calculateDetails(
     }
   }
 
+  const totalProfitSP = totalEarnedOnSP - repaymentsAmount;
+
   return {
     paymentDetails,
     repaymentDetails: { repaymentsCount, repaymentsAmount },
     investmentDetails: {
-      totalEarnedOnSP,
-      totalProfitSP: totalEarnedOnSP - repaymentsAmount,
+      totalEarnedOnSP: parseFloat(totalEarnedOnSP.toFixed(2)),
+      totalProfitSP: parseFloat(totalProfitSP.toFixed(2)),
     },
     totalMonths: parseFloat(totalMonths.toFixed(2)),
     totalCost: parseFloat(totalCost.toFixed(2)),

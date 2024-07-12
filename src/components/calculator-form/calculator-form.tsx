@@ -94,7 +94,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                   <div className={cn('relative w-full rounded-md')}>
                     <Input
                       type="number"
-                      placeholder="2024"
+                      placeholder="2019"
                       {...field}
                       className="flex w-full flex-col"
                     />
