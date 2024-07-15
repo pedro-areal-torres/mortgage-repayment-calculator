@@ -30,6 +30,7 @@ export interface MortgageCalculationResult {
   investmentDetails: InvestmentDetails;
   totalMonths: number;
   totalCost: number;
+  totalInterest: number;
   totalAssets: number;
   totalSaved: number;
 }
@@ -62,12 +63,16 @@ export function calculateMortgagePaymentDetails(
     amountInDebt,
     annualInterestRate,
     paymentTermInMonths,
-    0
+    0,
+    spAverageReturn
   );
-  const totalAssetsNoAction = calculateTotalAssets(
+  const houseValueNoAction = calculateTotalAssets(
     amountPaid,
     yearsSincePurchase + totalYears
   );
+
+  const totalSaved =
+    Math.floor(paymentTermInMonths / frequency) * expectedRepayment;
 
   // Only Repayment
   const onlyRepaymentDetails = calculateDetails(
@@ -75,6 +80,7 @@ export function calculateMortgagePaymentDetails(
     annualInterestRate,
     paymentTermInMonths,
     expectedRepayment,
+    spAverageReturn,
     frequency
   );
   const totalAssetsRepayment = calculateTotalAssets(
@@ -82,28 +88,37 @@ export function calculateMortgagePaymentDetails(
     yearsSincePurchase + totalYears
   );
   const totalSavedRepayment =
-    noActionDetails.totalCost - onlyRepaymentDetails.totalCost;
+    totalSaved -
+    Math.floor(onlyRepaymentDetails.totalMonths / frequency) *
+      expectedRepayment;
 
   // Only Investing
-  const totalInvested = onlyRepaymentDetails.repaymentDetails.repaymentsAmount;
-  let totalAssetsInvesting = amountPaid;
-  for (let i = 0; i < totalYears; i++) {
-    totalAssetsInvesting =
-      (totalAssetsInvesting + totalInvested / totalYears) *
-      (1 + spAverageReturn / 100);
+  const totalAssetsInvesting = calculateTotalAssets(
+    amountPaid,
+    yearsSincePurchase + totalYears
+  );
+
+  let totalSavedInvesting = 0;
+
+  const compoundCount = (totalYears * 12) / frequency;
+
+  for (let i = 0; i < compoundCount; i++) {
+    totalSavedInvesting +=
+      (expectedRepayment * (i + 1) + totalSavedInvesting) *
+      (spAverageReturn / 100);
   }
 
   const onlyInvestingDetails = {
     ...noActionDetails,
-    totalSaved:
-      totalInvested * Math.pow(1 + spAverageReturn / 100, totalYears / 12),
+    //totalSaved:
+    //totalInvested * Math.pow(1 + spAverageReturn / 100, totalYears / 12),
   };
 
   return {
     noAction: {
       ...noActionDetails,
-      totalAssets: parseFloat(totalAssetsNoAction.toFixed(2)),
-      totalSaved: 0,
+      totalAssets: parseFloat(houseValueNoAction.toFixed(2)),
+      totalSaved: parseFloat(totalSaved.toFixed(2)),
     },
     onlyRepayment: {
       ...onlyRepaymentDetails,
@@ -112,7 +127,14 @@ export function calculateMortgagePaymentDetails(
     },
     onlyInvesting: {
       ...onlyInvestingDetails,
+      investmentDetails: {
+        totalEarnedOnSP: parseFloat(
+          (totalSaved + totalSavedInvesting).toFixed(2)
+        ),
+        totalProfitSP: parseFloat(totalSavedInvesting.toFixed(2)),
+      },
       totalAssets: parseFloat(totalAssetsInvesting.toFixed(2)),
+      totalSaved: parseFloat(totalSaved.toFixed(2)),
     },
   };
 }
@@ -122,6 +144,7 @@ function calculateDetails(
   annualInterestRate: number,
   paymentTermInMonths: number,
   expectedRepayment: number,
+  spAvg: number,
   frequency: number = 12
 ): MortgageCalculationResult {
   const monthlyInterestRate = annualInterestRate / 100 / 12;
@@ -132,10 +155,11 @@ function calculateDetails(
   let remainingDebt = amountInDebt;
   let totalCost = 0;
   let totalMonths = 0;
+  let totalRepaymentMonths = 0;
   let repaymentsCount = 0;
   let repaymentsAmount = 0;
   let totalEarnedOnSP = 0;
-  const spAverageReturnPercentage = 1 + 2 / 100; // Assume a 2% return
+  const spAverageReturnPercentage = spAvg;
 
   const paymentDetails: MortgagePaymentDetail[] = [];
 
@@ -144,7 +168,7 @@ function calculateDetails(
     let returnOnRepaymentPercentage = 0;
 
     if (month !== 1 && (month - 1) % frequency === 0 && expectedRepayment > 0) {
-      remainingDebt -= expectedRepayment;
+      remainingDebt -= expectedRepayment * 0.98;
 
       repaymentsCount++;
 
@@ -176,12 +200,14 @@ function calculateDetails(
         returnOnRepayment > 0 ? returnOnRepayment / (remainingTerm / 12) : 0;
 
       monthlyPayment = newMonthlyPayment;
+      totalRepaymentMonths++;
     }
 
     const interestPaid = remainingDebt * monthlyInterestRate;
     const principalPaid = monthlyPayment - interestPaid;
     remainingDebt -= principalPaid;
-    totalCost += monthlyPayment;
+    totalCost +=
+      remainingDebt < 0 ? monthlyPayment + remainingDebt : monthlyPayment;
 
     totalMonths++;
 
@@ -206,13 +232,17 @@ function calculateDetails(
 
   return {
     paymentDetails,
-    repaymentDetails: { repaymentsCount, repaymentsAmount },
+    repaymentDetails: {
+      repaymentsCount,
+      repaymentsAmount: parseFloat(repaymentsAmount.toFixed(2)),
+    },
     investmentDetails: {
       totalEarnedOnSP: parseFloat(totalEarnedOnSP.toFixed(2)),
       totalProfitSP: parseFloat(totalProfitSP.toFixed(2)),
     },
-    totalMonths: parseFloat(totalMonths.toFixed(2)),
+    totalMonths: parseFloat((totalMonths - totalRepaymentMonths).toFixed(2)),
     totalCost: parseFloat(totalCost.toFixed(2)),
+    totalInterest: parseFloat((totalCost - amountInDebt).toFixed(2)),
     totalAssets: 0, // To be calculated outside
     totalSaved: 0, // To be calculated outside
   };

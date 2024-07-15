@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,13 +32,11 @@ interface Props {
 
 const formSchema = z.object({
   yearPurchase: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
-  amountPaid: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
-  debt: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
+  amountPaid: z.union([z.nan(), z.coerce.number().positive().min(1)]),
+  debt: z.union([z.nan(), z.coerce.number().positive().min(1)]),
   interest: z.union([z.nan(), z.coerce.number().positive().min(1)]),
   term: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
-  repayment: z
-    .union([z.nan(), z.coerce.number().int().positive().min(1)])
-    .optional(),
+  repayment: z.union([z.nan(), z.coerce.number().positive().min(1)]),
   spAvg: z.union([z.nan(), z.coerce.number().positive().min(1)]),
   frequency: z.string(),
 });
@@ -94,7 +93,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                   <div className={cn('relative w-full rounded-md')}>
                     <Input
                       type="number"
-                      placeholder="2019"
+                      placeholder="2024"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -166,7 +165,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     <Input
                       type="number"
                       step="any"
-                      placeholder="3.1"
+                      placeholder="4.9"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -215,6 +214,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     </div>
                   </div>
                 </FormControl>
+                <FormDescription>{t('Saving for repayment')}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -256,8 +256,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     <Input
                       type="number"
                       step="any"
-                      placeholder="shadcn"
-                      defaultValue={5.9}
+                      placeholder="5.68"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -271,14 +270,14 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
             )}
           />
         </div>
-        <div className="flex flex-row gap-1 items-center">
+        <div className="flex flex-row gap-1 items-start sm:items-center">
           <svg
             fill="currentColor"
             color="gray"
             viewBox="0 0 16 16"
             height=".8rem"
             width=".8rem"
-            className="hidden md:block"
+            className="mt-1.5 sm:mt-0"
           >
             <path d="M8 16A8 8 0 108 0a8 8 0 000 16zm.93-9.412l-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 110-2 1 1 0 010 2z" />
           </svg>
