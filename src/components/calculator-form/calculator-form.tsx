@@ -116,7 +116,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                   <div className={cn('relative w-full rounded-md')}>
                     <Input
                       type="number"
-                      placeholder="170000"
+                      placeholder="200000"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -141,7 +141,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                   <div className={cn('relative w-full rounded-md')}>
                     <Input
                       type="number"
-                      placeholder="150000"
+                      placeholder="180000"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -165,7 +165,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     <Input
                       type="number"
                       step="any"
-                      placeholder="4.9"
+                      placeholder="5"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -185,7 +185,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
               <FormItem>
                 <FormLabel>{t('Payment Term (months)')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="360" {...field} />
+                  <Input placeholder="420" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -205,7 +205,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     <Input
                       type="number"
                       step="any"
-                      placeholder="500"
+                      placeholder="1000"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -256,7 +256,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     <Input
                       type="number"
                       step="any"
-                      placeholder="5.68"
+                      placeholder="5.9"
                       {...field}
                       className="flex w-full flex-col"
                     />
@@ -283,10 +283,18 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
           </svg>
           <p className="text-xs leading-6 text-slate-500">
             {t('Mortgage Calculator')}
+            <a href="" className="underline">
+              Amortizar vs Investir
+            </a>
           </p>
         </div>
 
-        <Button type="submit">{t('Calculate')}</Button>
+        <Button
+          type="submit"
+          className="bg-green-400 font-bold hover:bg-green-500 text-black"
+        >
+          {t('Calculate')}
+        </Button>
       </form>
     </Form>
   );
