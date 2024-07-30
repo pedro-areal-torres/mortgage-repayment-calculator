@@ -2,6 +2,7 @@ export interface CalculationResult {
   noAction: MortgageCalculationResult;
   onlyRepayment: MortgageCalculationResult;
   onlyInvesting: MortgageCalculationResult;
+  fiftyFifty: MortgageCalculationResult; // Added for 50-50 scenario
 }
 
 export interface MortgagePaymentDetail {
@@ -114,6 +115,31 @@ export function calculateMortgagePaymentDetails(
     //totalInvested * Math.pow(1 + spAverageReturn / 100, totalYears / 12),
   };
 
+  // 50% Repayment, 50% Investing
+  const halfRepayment = expectedRepayment / 2;
+  const halfInvesting = expectedRepayment / 2;
+  const fiftyFiftyDetails = calculateDetails(
+    amountInDebt,
+    annualInterestRate,
+    paymentTermInMonths,
+    halfRepayment,
+    spAverageReturn,
+    frequency
+  );
+  const totalAssetsFiftyFifty = calculateTotalAssets(
+    amountPaid,
+    yearsSincePurchase + totalYears
+  );
+
+  let totalSavedFiftyFifty = 0;
+  for (let i = 0; i < compoundCount; i++) {
+    totalSavedFiftyFifty +=
+      (halfInvesting * (i + 1) + totalSavedFiftyFifty) *
+      (spAverageReturn / 100);
+  }
+
+  const totalSavedHalfInvest = totalSaved / 2;
+
   return {
     noAction: {
       ...noActionDetails,
@@ -135,6 +161,19 @@ export function calculateMortgagePaymentDetails(
       },
       totalAssets: parseFloat(totalAssetsInvesting.toFixed(2)),
       totalSaved: parseFloat(totalSaved.toFixed(2)),
+    },
+    fiftyFifty: {
+      ...fiftyFiftyDetails,
+      totalAssets: parseFloat(totalAssetsFiftyFifty.toFixed(2)),
+      totalSaved: parseFloat(
+        (totalSavedHalfInvest + totalSavedFiftyFifty).toFixed(2)
+      ),
+      investmentDetails: {
+        totalEarnedOnSP: parseFloat(
+          (totalSavedHalfInvest + totalSavedFiftyFifty).toFixed(2)
+        ),
+        totalProfitSP: parseFloat(totalSavedFiftyFifty.toFixed(2)),
+      },
     },
   };
 }
