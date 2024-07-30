@@ -14,6 +14,13 @@ import {
 } from '../ui/form';
 
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip';
+
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -287,6 +294,16 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
               Amortizar vs Investir
             </a>
           </p>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="text-xs leading-6 text-slate-500">
+                ({t('Read Disclaimer')})
+              </TooltipTrigger>
+              <TooltipContent className="max-w-72">
+                {t('Disclaimer')}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
 
         <Button
