@@ -9,6 +9,7 @@ import {
 import { CalculationResult } from '../../utils/calculator.utils';
 import { cn } from '../../lib/utils';
 import { formatNumber } from '../../utils/format-number.utils';
+import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
 interface Props {
   calculation: CalculationResult;
   currentTab: number;
@@ -19,6 +20,16 @@ export default function CalculatorFiftyFifty({
   currentTab,
 }: Props) {
   const { t } = useTranslation();
+
+  const totalAssetFiftyFifty =
+    calculation.fiftyFifty.totalAssets +
+    calculation.fiftyFifty.investmentDetails.totalEarnedOnSP +
+    calculation.fiftyFifty.totalSaved;
+
+  const totalCostsFiftyFifty =
+    calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
+
+  const returnFiftyFifty = totalAssetFiftyFifty / totalCostsFiftyFifty;
 
   return (
     <div
@@ -35,8 +46,9 @@ export default function CalculatorFiftyFifty({
             {calculation.noAction.totalMonths} {t('Months')}:{' '}
           </span>
           {formatNumber(
-            calculation.onlyInvesting.totalAssets +
-              calculation.onlyInvesting.investmentDetails.totalEarnedOnSP
+            calculation.fiftyFifty.totalAssets +
+              calculation.fiftyFifty.investmentDetails.totalEarnedOnSP +
+              calculation.fiftyFifty.totalSaved
           )}
           €
         </div>
@@ -48,20 +60,11 @@ export default function CalculatorFiftyFifty({
           )}
           €
         </div>
-        <div className="flex flex-row gap-1 items-center mt-2">
-          <svg
-            fill="currentColor"
-            color="gray"
-            viewBox="0 0 16 16"
-            height=".8rem"
-            width=".8rem"
-          >
-            <path d="M8 16A8 8 0 108 0a8 8 0 000 16zm.93-9.412l-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 110-2 1 1 0 010 2z" />
-          </svg>
-          <p className="text-xs leading-6 text-slate-500">
-            {t('Past not included')}
-          </p>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('ROIC')}: </span>
+          {formatNumber(returnFiftyFifty)}%
         </div>
+        <CalculatorInfoPreviousCosts />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Cost details')}</div>
@@ -136,7 +139,7 @@ export default function CalculatorFiftyFifty({
         </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger className="text-md">
+            <AccordionTrigger className="text-md font-semibold">
               {t('Payment details')}
             </AccordionTrigger>
             <AccordionContent>
@@ -211,8 +214,8 @@ export default function CalculatorFiftyFifty({
                                   {formatNumber(detail.remainingDebt)}€
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {detail.returnOnRepayment
-                                    ? `${parseFloat((detail.returnOnRepayment / 12).toFixed(2))}€`
+                                  {detail.monthlyPaymentReduction
+                                    ? `${formatNumber(detail.monthlyPaymentReduction)}€`
                                     : '-'}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

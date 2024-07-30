@@ -9,6 +9,8 @@ import {
 import { CalculationResult } from '../../utils/calculator.utils';
 import { cn } from '../../lib/utils';
 import { formatNumber } from '../../utils/format-number.utils';
+import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
+import CalculatorInfoHouseInflation from '../calculator-info/calculator-info-house-inflation';
 
 interface Props {
   calculation: CalculationResult;
@@ -17,6 +19,10 @@ interface Props {
 
 export default function CalculatorNoAction({ calculation, currentTab }: Props) {
   const { t } = useTranslation();
+
+  const totalAssetNoAction =
+    calculation.noAction.totalAssets + calculation.noAction.totalSaved;
+  const returnNoAction = totalAssetNoAction / calculation.noAction.totalCost;
 
   return (
     <div
@@ -41,20 +47,11 @@ export default function CalculatorNoAction({ calculation, currentTab }: Props) {
           <span className="text-gray-500">{t('From today out pocket')}: </span>
           {formatNumber(calculation.noAction.totalCost)}€
         </div>
-        <div className="flex flex-row gap-1 items-center mt-2">
-          <svg
-            fill="currentColor"
-            color="gray"
-            viewBox="0 0 16 16"
-            height=".8rem"
-            width=".8rem"
-          >
-            <path d="M8 16A8 8 0 108 0a8 8 0 000 16zm.93-9.412l-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 110-2 1 1 0 010 2z" />
-          </svg>
-          <p className="text-xs leading-6 text-slate-500">
-            {t('Past not included')}
-          </p>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('ROIC')}: </span>
+          {formatNumber(returnNoAction)}%
         </div>
+        <CalculatorInfoPreviousCosts />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Cost details')}</div>
@@ -77,23 +74,11 @@ export default function CalculatorNoAction({ calculation, currentTab }: Props) {
           <span className="text-gray-500">{t('Savings')}: </span>
           {formatNumber(calculation.noAction.totalSaved)}€
         </div>
-        <div className="flex flex-row gap-1 items-center mt-2">
-          <svg
-            fill="currentColor"
-            color="gray"
-            viewBox="0 0 16 16"
-            height=".8rem"
-            width=".8rem"
-          >
-            <path d="M8 16A8 8 0 108 0a8 8 0 000 16zm.93-9.412l-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 110-2 1 1 0 010 2z" />
-          </svg>
-          <p className="text-xs leading-6 text-slate-500">
-            {t('House Inflation')}
-          </p>
-        </div>
+        <CalculatorInfoHouseInflation />
+
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger className="text-md">
+            <AccordionTrigger className="text-md font-semibold">
               {t('Payment details')}
             </AccordionTrigger>
             <AccordionContent>

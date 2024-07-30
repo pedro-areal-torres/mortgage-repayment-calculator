@@ -39,6 +39,7 @@ const resources = {
       Savings: 'Savings',
       Assets: 'Assets after',
       Months: 'months',
+      MonthL: 'month',
       'Payment details': 'Payment details',
       'House Inflation':
         'Considers a 2% appreciation of the house since the year of purchase',
@@ -71,6 +72,7 @@ const resources = {
       'Monthly reduction return': 'Return on repayment',
       'Invested with profit': 'Amount invested including profit',
       'Past not included': 'Excludes payments made before today',
+      ROIC: 'Return on invested capital',
     },
   },
   es: {
@@ -109,6 +111,7 @@ const resources = {
       Savings: 'Dinero guardado',
       Assets: 'Patrimonio después de',
       Months: 'meses',
+      MonthL: 'mes',
       'Payment details': 'Detalles del pago',
       'House Inflation':
         'Considera una valorización del 2% de la casa desde el año de compra',
@@ -143,6 +146,7 @@ const resources = {
       'Invested with profit': 'Monto invertido incluyendo ganancias',
       'Past not included':
         'Excluye cuotas pagadas desde el inicio del préstamo hasta hoy',
+      ROIC: 'Rendimiento del capital invertido',
     },
   },
   pt: {
@@ -180,6 +184,7 @@ const resources = {
       Savings: 'Dinheiro guardado',
       Assets: 'Património após',
       Months: 'meses',
+      MonthL: 'mês',
       'Payment details': 'Detalhes da prestação',
       'House Inflation':
         'Considera valorização de 2% da casa desde o ano da compra',
@@ -212,7 +217,9 @@ const resources = {
       'Monthly reduction': 'Redução da prestação',
       'Monthly reduction return': 'Retorno da amortização',
       'Invested with profit': 'Montante investido incluindo lucros',
-      'Past not included': 'Exclui prestações pagas anteriores à data de hoje',
+      'Past not included':
+        'Exclui custos com prestações pagas anteriores à data de hoje',
+      ROIC: 'Retorno sobre capital investido',
     },
   },
 };

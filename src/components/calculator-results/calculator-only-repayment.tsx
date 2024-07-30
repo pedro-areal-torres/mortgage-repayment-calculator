@@ -21,6 +21,13 @@ export default function CalculatorOnlyRepayment({
 }: Props) {
   const { t } = useTranslation();
 
+  const totalAssetOnlyRepayment =
+    calculation.onlyRepayment.totalAssets +
+    calculation.onlyRepayment.totalSaved;
+
+  const returnOnlyRepayment =
+    totalAssetOnlyRepayment / calculation.onlyRepayment.totalCost;
+
   return (
     <div
       className={cn(
@@ -44,6 +51,10 @@ export default function CalculatorOnlyRepayment({
         <div className="text-sm">
           <span className="text-gray-500">{t('From today out pocket')}: </span>
           {formatNumber(calculation.onlyRepayment.totalCost)}€
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('ROIC')}: </span>
+          {formatNumber(returnOnlyRepayment)}%
         </div>
         <div className="flex flex-row gap-1 items-center mt-2">
           <svg
@@ -88,7 +99,11 @@ export default function CalculatorOnlyRepayment({
           <span className="text-gray-500">{t('Term reduction')}: </span>
           {calculation.noAction.totalMonths -
             calculation.onlyRepayment.totalMonths}{' '}
-          {t('Months')}
+          {calculation.noAction.totalMonths -
+            calculation.onlyRepayment.totalMonths >
+          1
+            ? t('Months')
+            : t('MonthL')}
         </div>
         <div className="flex flex-row gap-1 items-center mt-2">
           <svg
@@ -131,7 +146,7 @@ export default function CalculatorOnlyRepayment({
         </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger className="text-md">
+            <AccordionTrigger className="text-md font-semibold">
               {t('Payment details')}
             </AccordionTrigger>
             <AccordionContent>
@@ -206,8 +221,8 @@ export default function CalculatorOnlyRepayment({
                                   {formatNumber(detail.remainingDebt)}€
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {detail.returnOnRepayment
-                                    ? `${parseFloat((detail.returnOnRepayment / 12).toFixed(2))}€`
+                                  {detail.monthlyPaymentReduction
+                                    ? `${formatNumber(detail.monthlyPaymentReduction)}€`
                                     : '-'}
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
