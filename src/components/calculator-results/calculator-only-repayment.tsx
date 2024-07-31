@@ -21,6 +21,7 @@ export default function CalculatorOnlyRepayment({
 }: Props) {
   const { t } = useTranslation();
 
+  // ASSETS
   const interestSaved =
     calculation.noAction.totalCost - calculation.onlyRepayment.totalCost;
 
@@ -30,7 +31,11 @@ export default function CalculatorOnlyRepayment({
     interestSaved;
 
   const returnOnlyRepayment =
-    totalAssetOnlyRepayment / calculation.onlyRepayment.totalCost;
+    interestSaved / calculation.onlyRepayment.repaymentDetails.repaymentsAmount;
+
+  // COSTS
+  const termReduction =
+    calculation.noAction.totalMonths - calculation.onlyRepayment.totalMonths;
 
   return (
     <div
@@ -94,13 +99,7 @@ export default function CalculatorOnlyRepayment({
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Term reduction')}: </span>
-          {calculation.noAction.totalMonths -
-            calculation.onlyRepayment.totalMonths}{' '}
-          {calculation.noAction.totalMonths -
-            calculation.onlyRepayment.totalMonths >
-          1
-            ? t('Months')
-            : t('MonthL')}
+          {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
         </div>
         <div className="flex flex-row gap-1 items-center mt-2">
           <svg
