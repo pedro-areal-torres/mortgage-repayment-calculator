@@ -20,10 +20,6 @@ interface Props {
 export default function CalculatorNoAction({ calculation, currentTab }: Props) {
   const { t } = useTranslation();
 
-  const totalAssetNoAction =
-    calculation.noAction.totalAssets + calculation.noAction.totalSaved;
-  const returnNoAction = totalAssetNoAction / calculation.noAction.totalCost;
-
   return (
     <div
       className={cn(
@@ -46,10 +42,6 @@ export default function CalculatorNoAction({ calculation, currentTab }: Props) {
         <div className="text-sm">
           <span className="text-gray-500">{t('From today out pocket')}: </span>
           {formatNumber(calculation.noAction.totalCost)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('ROIC')}: </span>
-          {formatNumber(returnNoAction)}%
         </div>
         <CalculatorInfoPreviousCosts />
 
