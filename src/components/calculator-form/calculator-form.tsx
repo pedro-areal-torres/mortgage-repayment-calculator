@@ -37,16 +37,44 @@ interface Props {
   setCalculationDetails: any;
 }
 
-const formSchema = z.object({
-  yearPurchase: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
-  amountPaid: z.union([z.nan(), z.coerce.number().positive().min(1)]),
-  debt: z.union([z.nan(), z.coerce.number().positive().min(1)]),
-  interest: z.union([z.nan(), z.coerce.number().positive().min(1)]),
-  term: z.union([z.nan(), z.coerce.number().int().positive().min(1)]),
-  repayment: z.union([z.nan(), z.coerce.number().positive().min(1)]),
-  spAvg: z.union([z.nan(), z.coerce.number().positive().min(1)]),
-  frequency: z.string(),
-});
+const year = new Date().getFullYear();
+
+const formSchema = z
+  .object({
+    yearPurchase: z.union([
+      z.nan(),
+      z.coerce
+        .number()
+        .int()
+        .positive()
+        .min(year - 40)
+        .max(year),
+    ]),
+    amountPaid: z.union([
+      z.nan(),
+      z.coerce.number().positive().min(1).max(10000000),
+    ]),
+    debt: z.union([z.nan(), z.coerce.number().positive().min(1).max(10000000)]),
+    interest: z.union([z.nan(), z.coerce.number().positive().min(1).max(20)]),
+    term: z.union([
+      z.nan(),
+      z.coerce.number().int().positive().min(1).max(480),
+    ]),
+    repayment: z.union([
+      z.nan(),
+      z.coerce.number().positive().min(0).max(10000000),
+    ]),
+    spAvg: z.union([z.nan(), z.coerce.number().positive().min(0).max(100)]),
+    frequency: z.string(),
+  })
+  .refine((data) => (data.debt < data.repayment ? false : true), {
+    path: ['repayment'],
+    message: 'Repayment should be lower than debt',
+  })
+  .refine((data) => (data.amountPaid < data.debt ? false : true), {
+    path: ['repayment'],
+    message: 'Amuont paid should be higher than debt',
+  });
 
 export default function CalculatorForm({ setCalculationDetails }: Props) {
   const { t } = useTranslation();
