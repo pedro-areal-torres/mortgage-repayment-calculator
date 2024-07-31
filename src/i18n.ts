@@ -73,7 +73,7 @@ const resources = {
       'Invested with profit': 'Amount invested including profit',
       'Past not included': 'Excludes payments made before today',
       ROIC: 'Return on invested capital (ROIC)',
-      'Read Disclaimer': 'read disclaimer',
+      'Read Disclaimer': 'Disclaimer',
       Disclaimer:
         'This calculator has been developed to help analyze financial scenarios related to home loans and investments. However, despite efforts to ensure the accuracy of calculations, errors or inaccuracies may occur. We always recommend consulting a qualified financial advisor before making any financial decision based on the results provided by this tool.',
     },
@@ -150,7 +150,7 @@ const resources = {
       'Past not included':
         'Excluye cuotas pagadas desde el inicio del préstamo hasta hoy',
       ROIC: 'Rendimiento del capital invertido (ROIC)',
-      'Read Disclaimer': 'leer disclaimer',
+      'Read Disclaimer': 'Disclaimer',
       Disclaimer:
         'Esta calculadora ha sido desarrollada para ayudar a analizar escenarios financieros relacionados con préstamos hipotecarios e inversiones. Sin embargo, a pesar de los esfuerzos realizados para garantizar la exactitud de los cálculos, pueden producirse errores o imprecisiones. Siempre recomendamos consultar a un asesor financiero cualificado antes de tomar cualquier decisión financiera basada en los resultados proporcionados por esta herramienta.',
     },
@@ -226,7 +226,7 @@ const resources = {
       'Past not included':
         'Exclui custos com prestações pagas anteriores à data de hoje',
       ROIC: 'Retorno sobre capital investido (ROIC)',
-      'Read Disclaimer': 'ler disclaimer',
+      'Read Disclaimer': 'Disclaimer',
       Disclaimer:
         'Esta calculadora foi desenvolvida para ajudar na análise de cenários financeiros relacionados ao crédito habitação e investimentos. No entanto, apesar dos esforços para garantir a precisão dos cálculos, podem ocorrer erros ou imprecisões. Recomendamos sempre consultar um consultor financeiro qualificado antes de tomar qualquer decisão financeira baseada nos resultados fornecidos por esta ferramenta.',
     },
