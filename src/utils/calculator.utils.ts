@@ -101,10 +101,11 @@ export function calculateMortgagePaymentDetails(
 
   const compoundCount = (totalYears * 12) / frequency;
 
-  for (let i = 0; i < compoundCount; i++) {
+  for (let i = 1; i <= compoundCount; i++) {
     totalSavedInvesting +=
-      (expectedRepayment * (i + 1) + totalSavedInvesting) *
-      (spAverageReturn / 100);
+      totalSavedInvesting === 0
+        ? expectedRepayment
+        : totalSavedInvesting * (spAverageReturn / 100) + expectedRepayment;
   }
 
   const onlyInvestingDetails = {
@@ -130,10 +131,11 @@ export function calculateMortgagePaymentDetails(
   );
 
   let totalSavedFiftyFifty = 0;
-  for (let i = 0; i < compoundCount; i++) {
+  for (let i = 1; i <= compoundCount; i++) {
     totalSavedFiftyFifty +=
-      (halfInvesting * (i + 1) + totalSavedFiftyFifty) *
-      (spAverageReturn / 100);
+      totalSavedFiftyFifty === 0
+        ? halfInvesting
+        : totalSavedFiftyFifty * (spAverageReturn / 100) + halfInvesting;
   }
 
   const totalSavedHalfInvest = totalSaved / 2;
@@ -152,10 +154,10 @@ export function calculateMortgagePaymentDetails(
     onlyInvesting: {
       ...onlyInvestingDetails,
       investmentDetails: {
-        totalEarnedOnSP: parseFloat(
-          (totalSaved + totalSavedInvesting).toFixed(2)
+        totalEarnedOnSP: parseFloat(totalSavedInvesting.toFixed(2)),
+        totalProfitSP: parseFloat(
+          (totalSavedInvesting - totalSaved).toFixed(2)
         ),
-        totalProfitSP: parseFloat(totalSavedInvesting.toFixed(2)),
       },
       totalAssets: parseFloat(totalAssetsInvesting.toFixed(2)),
       totalSaved: parseFloat(totalSaved.toFixed(2)),
@@ -170,10 +172,10 @@ export function calculateMortgagePaymentDetails(
         ).toFixed(2)
       ),
       investmentDetails: {
-        totalEarnedOnSP: parseFloat(
-          (totalSavedHalfInvest + totalSavedFiftyFifty).toFixed(2)
+        totalEarnedOnSP: parseFloat(totalSavedFiftyFifty.toFixed(2)),
+        totalProfitSP: parseFloat(
+          (totalSavedFiftyFifty - totalSavedHalfInvest).toFixed(2)
         ),
-        totalProfitSP: parseFloat(totalSavedFiftyFifty.toFixed(2)),
       },
     },
   };
@@ -218,8 +220,10 @@ function calculateDetails(
           : expectedRepayment + remainingDebt;
 
       totalEarnedOnSP =
-        (totalEarnedOnSP + expectedRepayment) *
-        (spAverageReturnPercentage / 100 + 1);
+        totalEarnedOnSP === 0
+          ? expectedRepayment
+          : totalEarnedOnSP * (spAverageReturnPercentage / 100 + 1) +
+            expectedRepayment;
 
       totalCost +=
         remainingDebt > 0
