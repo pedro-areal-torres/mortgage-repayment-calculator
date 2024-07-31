@@ -21,10 +21,14 @@ export default function CalculatorFiftyFifty({
 }: Props) {
   const { t } = useTranslation();
 
+  const interestSaved =
+    calculation.noAction.totalCost - calculation.fiftyFifty.totalCost;
+
   const totalAssetFiftyFifty =
     calculation.fiftyFifty.totalAssets +
     calculation.fiftyFifty.investmentDetails.totalEarnedOnSP +
-    calculation.fiftyFifty.totalSaved;
+    calculation.fiftyFifty.totalSaved +
+    interestSaved;
 
   const totalCostsFiftyFifty =
     calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
@@ -45,12 +49,7 @@ export default function CalculatorFiftyFifty({
             {t('Total Assets by end')}
             {calculation.noAction.totalMonths} {t('Months')}:{' '}
           </span>
-          {formatNumber(
-            calculation.fiftyFifty.totalAssets +
-              calculation.fiftyFifty.investmentDetails.totalEarnedOnSP +
-              calculation.fiftyFifty.totalSaved
-          )}
-          €
+          {formatNumber(totalAssetFiftyFifty)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('From today out pocket')}: </span>
@@ -78,10 +77,7 @@ export default function CalculatorFiftyFifty({
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Saved')}: </span>
-          {formatNumber(
-            calculation.noAction.totalCost - calculation.fiftyFifty.totalCost
-          )}
-          €
+          {formatNumber(interestSaved)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Repayment done')}: </span>

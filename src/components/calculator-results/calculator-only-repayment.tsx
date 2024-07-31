@@ -21,9 +21,13 @@ export default function CalculatorOnlyRepayment({
 }: Props) {
   const { t } = useTranslation();
 
+  const interestSaved =
+    calculation.noAction.totalCost - calculation.onlyRepayment.totalCost;
+
   const totalAssetOnlyRepayment =
     calculation.onlyRepayment.totalAssets +
-    calculation.onlyRepayment.totalSaved;
+    calculation.onlyRepayment.totalSaved +
+    interestSaved;
 
   const returnOnlyRepayment =
     totalAssetOnlyRepayment / calculation.onlyRepayment.totalCost;
@@ -42,11 +46,7 @@ export default function CalculatorOnlyRepayment({
             {t('Total Assets by end')}
             {calculation.noAction.totalMonths} {t('Months')}:{' '}
           </span>
-          {formatNumber(
-            calculation.onlyRepayment.totalAssets +
-              calculation.onlyRepayment.totalSaved
-          )}
-          €
+          {formatNumber(totalAssetOnlyRepayment)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('From today out pocket')}: </span>
@@ -83,10 +83,7 @@ export default function CalculatorOnlyRepayment({
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Saved')}: </span>
-          {formatNumber(
-            calculation.noAction.totalCost - calculation.onlyRepayment.totalCost
-          )}
-          €
+          {formatNumber(interestSaved)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Repayment done')}: </span>
