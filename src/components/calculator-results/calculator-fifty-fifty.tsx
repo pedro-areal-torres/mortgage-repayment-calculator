@@ -41,8 +41,9 @@ export default function CalculatorFiftyFifty({
     calculation.fiftyFifty.totalSaved +
     interestSaved;
 
-  const totalCostsFiftyFifty =
-    calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
+  // Caso contemple o investimento como um custo
+  // const totalCostsFiftyFifty = calculation.fiftyFifty.totalCost + calculation.noAction.totalSaved;
+  const totalCostsFiftyFifty = calculation.fiftyFifty.totalCost;
 
   const returnFiftyFifty =
     (interestSaved + investmentReturn) / (amountRepayment + amountInvested);

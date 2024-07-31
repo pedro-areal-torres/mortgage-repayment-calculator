@@ -26,8 +26,9 @@ export default function CalculatorOnlyInvest({
     calculation.onlyInvesting.totalAssets +
     calculation.onlyInvesting.investmentDetails.totalEarnedOnSP;
 
-  const totalCostsOnlyInvest =
-    calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
+  // Caso contemple o investimento como um custo
+  //const totalCostsOnlyInvest = calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
+  const totalCostsOnlyInvest = calculation.onlyInvesting.totalCost;
 
   const amountInvested = calculation.noAction.totalSaved;
 
