@@ -25,10 +25,15 @@ export default function CalculatorOnlyInvest({
   const totalAssetOnlyInvest =
     calculation.onlyInvesting.totalAssets +
     calculation.onlyInvesting.investmentDetails.totalEarnedOnSP;
-  const totalCostsOnlyInvest =
-    calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
 
-  const returnOnlyInvest = totalAssetOnlyInvest / totalCostsOnlyInvest;
+  // Caso contemple o investimento como um custo
+  //const totalCostsOnlyInvest = calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
+  const totalCostsOnlyInvest = calculation.onlyInvesting.totalCost;
+
+  const amountInvested = calculation.noAction.totalSaved;
+
+  const returnOnlyInvest =
+    calculation.onlyInvesting.investmentDetails.totalProfitSP / amountInvested;
 
   return (
     <div
@@ -44,19 +49,11 @@ export default function CalculatorOnlyInvest({
             {t('Total Assets by end')}
             {calculation.noAction.totalMonths} {t('Months')}:{' '}
           </span>
-          {formatNumber(
-            calculation.onlyInvesting.totalAssets +
-              calculation.onlyInvesting.investmentDetails.totalEarnedOnSP
-          )}
-          €
+          {formatNumber(totalAssetOnlyInvest)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('From today out pocket')}: </span>
-          {formatNumber(
-            calculation.onlyInvesting.totalCost +
-              calculation.noAction.totalSaved
-          )}
-          €
+          {formatNumber(totalCostsOnlyInvest)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('ROIC')}: </span>

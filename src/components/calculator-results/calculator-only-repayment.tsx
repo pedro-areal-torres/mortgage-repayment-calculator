@@ -21,12 +21,21 @@ export default function CalculatorOnlyRepayment({
 }: Props) {
   const { t } = useTranslation();
 
+  // ASSETS
+  const interestSaved =
+    calculation.noAction.totalCost - calculation.onlyRepayment.totalCost;
+
   const totalAssetOnlyRepayment =
     calculation.onlyRepayment.totalAssets +
-    calculation.onlyRepayment.totalSaved;
+    calculation.onlyRepayment.totalSaved +
+    interestSaved;
 
   const returnOnlyRepayment =
-    totalAssetOnlyRepayment / calculation.onlyRepayment.totalCost;
+    interestSaved / calculation.onlyRepayment.repaymentDetails.repaymentsAmount;
+
+  // COSTS
+  const termReduction =
+    calculation.noAction.totalMonths - calculation.onlyRepayment.totalMonths;
 
   return (
     <div
@@ -42,11 +51,7 @@ export default function CalculatorOnlyRepayment({
             {t('Total Assets by end')}
             {calculation.noAction.totalMonths} {t('Months')}:{' '}
           </span>
-          {formatNumber(
-            calculation.onlyRepayment.totalAssets +
-              calculation.onlyRepayment.totalSaved
-          )}
-          €
+          {formatNumber(totalAssetOnlyRepayment)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('From today out pocket')}: </span>
@@ -83,10 +88,7 @@ export default function CalculatorOnlyRepayment({
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Saved')}: </span>
-          {formatNumber(
-            calculation.noAction.totalCost - calculation.onlyRepayment.totalCost
-          )}
-          €
+          {formatNumber(interestSaved)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Repayment done')}: </span>
@@ -97,13 +99,7 @@ export default function CalculatorOnlyRepayment({
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Term reduction')}: </span>
-          {calculation.noAction.totalMonths -
-            calculation.onlyRepayment.totalMonths}{' '}
-          {calculation.noAction.totalMonths -
-            calculation.onlyRepayment.totalMonths >
-          1
-            ? t('Months')
-            : t('MonthL')}
+          {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
         </div>
         <div className="flex flex-row gap-1 items-center mt-2">
           <svg

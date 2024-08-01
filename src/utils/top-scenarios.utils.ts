@@ -5,24 +5,16 @@ export function topScenarios(calculation?: CalculationResult) {
     // NO ACTION
     const totalAssetNoAction =
       calculation.noAction.totalAssets + calculation.noAction.totalSaved;
-    const returnNoAction = totalAssetNoAction / calculation.noAction.totalCost;
 
     // ONLY INVEST
     const totalAssetOnlyInvest =
       calculation.onlyInvesting.totalAssets +
       calculation.onlyInvesting.investmentDetails.totalEarnedOnSP;
-    const totalCostsOnlyInvest =
-      calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
-
-    const returnOnlyInvest = totalAssetOnlyInvest / totalCostsOnlyInvest;
 
     // ONLY REPAYMENT
     const totalAssetOnlyRepayment =
       calculation.onlyRepayment.totalAssets +
       calculation.onlyRepayment.totalSaved;
-
-    const returnOnlyRepayment =
-      totalAssetOnlyRepayment / calculation.onlyRepayment.totalCost;
 
     // 50 / 50
     const totalAssetFiftyFifty =
@@ -30,34 +22,32 @@ export function topScenarios(calculation?: CalculationResult) {
       calculation.fiftyFifty.investmentDetails.totalEarnedOnSP +
       calculation.fiftyFifty.totalSaved;
 
-    const totalCostsFiftyFifty =
-      calculation.onlyInvesting.totalCost + calculation.noAction.totalSaved;
-
-    const returnFiftyFifty = totalAssetFiftyFifty / totalCostsFiftyFifty;
-
     const maxVal = Math.max(
-      returnNoAction,
-      returnOnlyInvest,
-      returnOnlyRepayment,
-      returnFiftyFifty
+      totalAssetNoAction,
+      totalAssetOnlyInvest,
+      totalAssetOnlyRepayment,
+      totalAssetFiftyFifty
     );
 
     const minVal = Math.min(
-      returnNoAction,
-      returnOnlyInvest,
-      returnOnlyRepayment,
-      returnFiftyFifty
+      totalAssetNoAction,
+      totalAssetOnlyInvest,
+      totalAssetOnlyRepayment,
+      totalAssetFiftyFifty
     );
 
     const options = [];
 
-    if (maxVal === returnNoAction || minVal === returnNoAction)
+    if (maxVal === totalAssetNoAction || minVal === totalAssetNoAction)
       options.push('Mortgage Without Repayments');
-    if (maxVal === returnOnlyInvest || minVal === returnOnlyInvest)
+    if (maxVal === totalAssetOnlyInvest || minVal === totalAssetOnlyInvest)
       options.push('Only Invest');
-    if (maxVal === returnOnlyRepayment || minVal === returnOnlyRepayment)
+    if (
+      maxVal === totalAssetOnlyRepayment ||
+      minVal === totalAssetOnlyRepayment
+    )
       options.push('Only Repayments');
-    if (maxVal === returnFiftyFifty || minVal === returnFiftyFifty)
+    if (maxVal === totalAssetFiftyFifty || minVal === totalAssetFiftyFifty)
       options.push('Fifty Fifty');
 
     return options;
