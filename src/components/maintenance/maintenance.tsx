@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Maintenance() {
   return (
     <section className="bg-white dark:bg-gray-900 min-h-screen flex items-center">
