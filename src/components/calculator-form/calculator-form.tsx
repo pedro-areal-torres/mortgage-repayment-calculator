@@ -319,7 +319,10 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
             </svg>
             <p className="text-xs leading-6 text-slate-500">
               {t('Mortgage Calculator')}
-              <a href="" className="underline">
+              <a
+                href="https://www.oamadorfinanceiro.pt/p/3907c638-b851-4801-b569-e8c83066e8ae"
+                className="underline"
+              >
                 Amortizar vs Investir
               </a>
             </p>
