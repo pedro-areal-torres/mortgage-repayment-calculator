@@ -3,27 +3,13 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '../ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 import { Input } from '../ui/input';
 import { useTranslation } from 'react-i18next';
-import { calculateMortgagePaymentDetails } from '../../utils/calculator.utils';
+import { calculate } from '../../utils/calculator.utils';
 import { cn } from '../../lib/utils';
 import CalculatorInfoDisclaimer from '../calculator-info/calculator-info-disclaimer';
 import CalculatorInfoOAF from '../calculator-info/calculator-info-oaf';
@@ -33,6 +19,7 @@ interface Props {
 }
 
 const year = new Date().getFullYear();
+const MAX_AMOUNT = 10000000;
 
 const formSchema = z
   .object({
@@ -45,20 +32,11 @@ const formSchema = z
         .min(year - 40)
         .max(year),
     ]),
-    amountPaid: z.union([
-      z.nan(),
-      z.coerce.number().positive().min(1).max(10000000),
-    ]),
-    debt: z.union([z.nan(), z.coerce.number().positive().min(1).max(10000000)]),
+    amountPaid: z.union([z.nan(), z.coerce.number().positive().min(1).max(MAX_AMOUNT)]),
+    debt: z.union([z.nan(), z.coerce.number().positive().min(1).max(MAX_AMOUNT)]),
     interest: z.union([z.nan(), z.coerce.number().positive().min(1).max(20)]),
-    term: z.union([
-      z.nan(),
-      z.coerce.number().int().positive().min(1).max(480),
-    ]),
-    repayment: z.union([
-      z.nan(),
-      z.coerce.number().positive().min(0).max(10000000),
-    ]),
+    term: z.union([z.nan(), z.coerce.number().int().positive().min(1).max(480)]),
+    repayment: z.union([z.nan(), z.coerce.number().positive().min(0).max(MAX_AMOUNT)]),
     spAvg: z.union([z.nan(), z.coerce.number().positive().min(0).max(100)]),
     frequency: z.string(),
   })
@@ -79,27 +57,9 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const {
-      yearPurchase,
-      amountPaid,
-      debt,
-      interest,
-      term,
-      repayment,
-      spAvg,
-      frequency,
-    } = values;
+    const { yearPurchase, amountPaid, debt, interest, term, repayment, frequency, spAvg } = values;
 
-    const calculation = calculateMortgagePaymentDetails(
-      debt,
-      interest,
-      term,
-      spAvg,
-      yearPurchase,
-      amountPaid,
-      Number(frequency),
-      repayment
-    );
+    const calculation = calculate(yearPurchase, amountPaid, debt, interest, term, repayment, Number(frequency), spAvg);
 
     console.log({ calculation });
 
@@ -108,10 +68,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-start w-full gap-4"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col justify-start w-full gap-4">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
           <FormField
             control={form.control}
@@ -121,12 +78,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                 <FormLabel>{t('Year of Purchase')}</FormLabel>
                 <FormControl>
                   <div className={cn('relative w-full rounded-md')}>
-                    <Input
-                      type="number"
-                      placeholder="2024"
-                      {...field}
-                      className="flex w-full flex-col"
-                    />
+                    <Input type="number" placeholder="2024" {...field} className="flex w-full flex-col" />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                       <span className="text-gray-500 sm:text-sm">€</span>
                     </div>
@@ -144,12 +96,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                 <FormLabel>{t('Amount Paid')}</FormLabel>
                 <FormControl>
                   <div className={cn('relative w-full rounded-md')}>
-                    <Input
-                      type="number"
-                      placeholder="200000"
-                      {...field}
-                      className="flex w-full flex-col"
-                    />
+                    <Input type="number" placeholder="200000" {...field} className="flex w-full flex-col" />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                       <span className="text-gray-500 sm:text-sm">€</span>
                     </div>
@@ -169,12 +116,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                 <FormLabel>{t('Amount in Debt')}</FormLabel>
                 <FormControl>
                   <div className={cn('relative w-full rounded-md')}>
-                    <Input
-                      type="number"
-                      placeholder="180000"
-                      {...field}
-                      className="flex w-full flex-col"
-                    />
+                    <Input type="number" placeholder="180000" {...field} className="flex w-full flex-col" />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                       <span className="text-gray-500 sm:text-sm">€</span>
                     </div>
@@ -192,13 +134,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                 <FormLabel>{t('Annual Interest Rate')}</FormLabel>
                 <FormControl>
                   <div className={cn('relative w-full rounded-md')}>
-                    <Input
-                      type="number"
-                      step="any"
-                      placeholder="5"
-                      {...field}
-                      className="flex w-full flex-col"
-                    />
+                    <Input type="number" step="any" placeholder="5" {...field} className="flex w-full flex-col" />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                       <span className="text-gray-500 sm:text-sm">%</span>
                     </div>
@@ -232,13 +168,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                 <FormLabel>{t('Expected Repayment every 12 months')}</FormLabel>
                 <FormControl>
                   <div className={cn('relative w-full rounded-md')}>
-                    <Input
-                      type="number"
-                      step="any"
-                      placeholder="1000"
-                      {...field}
-                      className="flex w-full flex-col"
-                    />
+                    <Input type="number" step="any" placeholder="1000" {...field} className="flex w-full flex-col" />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                       <span className="text-gray-500 sm:text-sm">€</span>
                     </div>
@@ -255,10 +185,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t('Frequency')}</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder={''} />
@@ -283,13 +210,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                 <FormLabel>{t('Expected Return')}</FormLabel>
                 <FormControl>
                   <div className={cn('relative w-full rounded-md')}>
-                    <Input
-                      type="number"
-                      step="any"
-                      placeholder="5.9"
-                      {...field}
-                      className="flex w-full flex-col"
-                    />
+                    <Input type="number" step="any" placeholder="5.9" {...field} className="flex w-full flex-col" />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                       <span className="text-gray-500 sm:text-sm">%</span>
                     </div>
@@ -300,15 +221,17 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
             )}
           />
         </div>
-        <div className="flex flex-row justify-between">
-          <CalculatorInfoOAF />
-          <CalculatorInfoDisclaimer />
+        <div className="flex flex-col sm:flex-row justify-start sm:justify-between items-end">
+          <div className="hidden sm:flex sm:flex-col w-full">
+            <CalculatorInfoDisclaimer />
+            <CalculatorInfoOAF />
+          </div>
+          <p className="w-full text-xs leading-6 text-slate-500 italic flex flex-row gap-1 justify-end">
+            {t('Design')}: <a href="https://www.linkedin.com/in/pedro-areal-torres/">Pedro Torres</a>
+          </p>
         </div>
 
-        <Button
-          type="submit"
-          className="bg-green-400 font-bold hover:bg-green-500 text-black"
-        >
+        <Button type="submit" className="bg-green-400 font-bold hover:bg-green-500 text-black">
           {t('Calculate')}
         </Button>
       </form>

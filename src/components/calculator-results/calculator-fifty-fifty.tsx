@@ -1,60 +1,22 @@
 import { useTranslation } from 'react-i18next';
 import { Separator } from '../ui/separator';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '../ui/accordion';
-import { CalculationResult } from '../../utils/calculator.utils';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import { cn } from '../../lib/utils';
 import { formatNumber } from '../../utils/format-number.utils';
 import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
+import { MortgageCalculationResult } from '../../utils/calculator.utils';
+
 interface Props {
-  calculation: CalculationResult;
+  calculation: MortgageCalculationResult;
   currentTab: number;
 }
 
-export default function CalculatorFiftyFifty({
-  calculation,
-  currentTab,
-}: Props) {
+export default function CalculatorFiftyFifty({ calculation, currentTab }: Props) {
   const { t } = useTranslation();
 
-  // ASSETS
-  const interestSaved =
-    calculation.noAction.totalCost - calculation.fiftyFifty.totalCost;
-  const investmentReturn =
-    calculation.fiftyFifty.investmentDetails.totalProfitSP;
-
-  // COSTS
-  const amountInvested = calculation.noAction.totalSaved / 2;
-  const termReduction =
-    calculation.noAction.totalMonths - calculation.fiftyFifty.totalMonths;
-  const amountRepayment =
-    calculation.fiftyFifty.repaymentDetails.repaymentsAmount;
-
-  //OVERVIEW
-  const totalAssetFiftyFifty =
-    calculation.fiftyFifty.totalAssets +
-    calculation.fiftyFifty.investmentDetails.totalEarnedOnSP +
-    calculation.fiftyFifty.totalSaved +
-    interestSaved;
-
-  // Caso contemple o investimento como um custo
-  // const totalCostsFiftyFifty = calculation.fiftyFifty.totalCost + calculation.noAction.totalSaved;
-  const totalCostsFiftyFifty = calculation.fiftyFifty.totalCost;
-
-  const returnFiftyFifty =
-    (interestSaved + investmentReturn) / (amountRepayment + amountInvested);
-
   return (
-    <div
-      className={cn(
-        'overflow-hidden rounded-lg bg-white px-4 py-5 shadow-md sm:p-4',
-        currentTab !== 3 && 'hidden'
-      )}
-    >
+    <></>
+    /*     <div className={cn('overflow-hidden rounded-lg bg-white px-4 py-5 shadow-md sm:p-4', currentTab !== 3 && 'hidden')}>
       <dd className="mt-1 text-md font-normal tracking-tight text-gray-900">
         <div className="text-md font-semibold mt-1">{t('Resume')}</div>
         <div className="text-sm mt-1">
@@ -90,10 +52,7 @@ export default function CalculatorFiftyFifty({
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Repayment done')}: </span>
-          {formatNumber(
-            calculation.fiftyFifty.repaymentDetails.repaymentsAmount
-          )}
-          €
+          {formatNumber(calculation.fiftyFifty.repaymentDetails.repaymentsAmount)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Term reduction')}: </span>
@@ -116,34 +75,21 @@ export default function CalculatorFiftyFifty({
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Invested with profit')}: </span>
-          {formatNumber(
-            calculation.fiftyFifty.investmentDetails.totalEarnedOnSP
-          )}
-          €
+          {formatNumber(calculation.fiftyFifty.investmentDetails.totalEarned)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Savings')}: </span>
           {formatNumber(calculation.fiftyFifty.totalSaved)}€
         </div>
         <div className="flex flex-row gap-1 items-center mt-2">
-          <svg
-            fill="currentColor"
-            color="gray"
-            viewBox="0 0 16 16"
-            height=".8rem"
-            width=".8rem"
-          >
+          <svg fill="currentColor" color="gray" viewBox="0 0 16 16" height=".8rem" width=".8rem">
             <path d="M8 16A8 8 0 108 0a8 8 0 000 16zm.93-9.412l-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 110-2 1 1 0 010 2z" />
           </svg>
-          <p className="text-xs leading-6 text-slate-500">
-            {t('House Inflation')}
-          </p>
+          <p className="text-xs leading-6 text-slate-500">{t('House Inflation')}</p>
         </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger className="text-md font-semibold">
-              {t('Payment details')}
-            </AccordionTrigger>
+            <AccordionTrigger className="text-md font-semibold">{t('Payment details')}</AccordionTrigger>
             <AccordionContent>
               <div className="mt-8 flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -152,82 +98,45 @@ export default function CalculatorFiftyFifty({
                       <table className="min-w-full divide-y divide-gray-300 text-center">
                         <thead className="bg-gray-50">
                           <tr>
-                            <th
-                              scope="col"
-                              className="py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6"
-                            >
+                            <th scope="col" className="py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                               {t('Month')}
                             </th>
-                            <th
-                              scope="col"
-                              className="px-3 py-3.5 text-sm font-semibold text-gray-900"
-                            >
+                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Monthly Payment')}
                             </th>
-                            <th
-                              scope="col"
-                              className="px-3 py-3.5 text-sm font-semibold text-gray-900"
-                            >
+                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Interest Paid')}
                             </th>
-                            <th
-                              scope="col"
-                              className="px-3 py-3.5 text-sm font-semibold text-gray-900"
-                            >
+                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Principal Paid')}
                             </th>
-                            <th
-                              scope="col"
-                              className="px-3 py-3.5 text-sm font-semibold text-gray-900"
-                            >
+                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Remaining Debt')}
                             </th>
-                            <th
-                              scope="col"
-                              className="px-3 py-3.5 text-sm font-semibold text-gray-900"
-                            >
+                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Monthly reduction')}
                             </th>
-                            <th
-                              scope="col"
-                              className="px-3 py-3.5 text-sm font-semibold text-gray-900"
-                            >
+                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Monthly reduction return')}
                             </th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white">
-                          {calculation.fiftyFifty.paymentDetails.map(
-                            (detail) => (
-                              <tr key={detail.month}>
-                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                  {detail.month}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {formatNumber(detail.monthlyPayment)}€
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {formatNumber(detail.interestPaid)}€
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {formatNumber(detail.principalPaid)}€
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {formatNumber(detail.remainingDebt)}€
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {detail.monthlyPaymentReduction
-                                    ? `${formatNumber(detail.monthlyPaymentReduction)}€`
-                                    : '-'}
-                                </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                  {detail.returnOnRepaymentPercentage
-                                    ? `${detail.returnOnRepaymentPercentage}%`
-                                    : '-'}
-                                </td>
-                              </tr>
-                            )
-                          )}
+                          {calculation.fiftyFifty.paymentDetails.map((detail) => (
+                            <tr key={detail.month}>
+                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{detail.month}</td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.monthlyPayment)}€</td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.interestPaid)}€</td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.principalPaid)}€</td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.remainingDebt)}€</td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {detail.monthlyPaymentReduction ? `${formatNumber(detail.monthlyPaymentReduction)}€` : '-'}
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {detail.returnOnRepaymentPercentage ? `${detail.returnOnRepaymentPercentage}%` : '-'}
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>
@@ -238,6 +147,6 @@ export default function CalculatorFiftyFifty({
           </AccordionItem>
         </Accordion>
       </dd>
-    </div>
+    </div> */
   );
 }
