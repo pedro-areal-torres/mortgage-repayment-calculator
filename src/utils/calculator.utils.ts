@@ -27,6 +27,7 @@ interface MortgageDetails {
   totalMonths: number;
   totalCost: number;
   totalInterest: number;
+  totalDebt: number;
   totalSavedOnInterest: number;
   monthlyPayments: MonthlyPayments[];
   repaymentDetails: RepaymentDetails;
@@ -192,6 +193,7 @@ function calculateMortgageDetails(
     totalMonths: totalMortgageMonths,
     //totalCost: totalMortgageCost,
     totalCost: totalMortgageCost,
+    totalDebt: amountInDebt,
     totalInterest: totalMortgageCost - amountInDebt,
     totalSavedOnInterest,
     monthlyPayments,
@@ -331,7 +333,7 @@ function calculateOnlyInvesting(
   const earnedInvestment = calculateEarnedInvesting(investingMonths, frequency, amountSaved, investmentAvgReturn);
   const profit = earnedInvestment - invested;
 
-  const earned = houseValue + earnedInvestment + savings;
+  const earned = houseValue + profit + savings;
   const costs = noActionMortage.totalCost + 0.28 * profit;
 
   return {
@@ -371,7 +373,7 @@ function calculateFiftyFifty(
   const earnedInvestment = calculateEarnedInvesting(investingMonths, frequency, amountSaved, investmentAvgReturn);
   const profit = earnedInvestment - invested;
 
-  const earned = houseValue + mortgageDetails.totalSavedOnInterest + earnedInvestment + savings;
+  const earned = houseValue + mortgageDetails.totalSavedOnInterest + profit + savings;
   const costs = mortgageDetails.totalCost + 0.28 * profit;
 
   return {

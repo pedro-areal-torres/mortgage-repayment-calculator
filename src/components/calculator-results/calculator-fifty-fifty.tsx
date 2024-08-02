@@ -40,6 +40,14 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
           <span className="text-gray-500">{t('Result')}: </span>
           {formatNumber(overview.net)}€
         </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Amount Invested')}: </span>
+          {formatNumber(investmentDetails.invested)}€
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Term reduction')}: </span>
+          {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
+        </div>
         <CalculatorInfoPreviousCosts />
         <CalculatorInfoIncludesTax />
 
@@ -47,7 +55,7 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
         <div className="text-md font-semibold">{t('Cost details')}</div>
         <div className="text-sm mt-1">
           <span className="text-gray-500">{t('Mortgage Cost')}: </span>
-          {formatNumber(mortgageDetails.totalCost)}€
+          {formatNumber(mortgageDetails.totalDebt)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Cost')}: </span>
@@ -58,16 +66,8 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
           {formatNumber(mortgageDetails.totalSavedOnInterest)}€
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">{t('Repayment done')}: </span>
-          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Term reduction')}: </span>
-          {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Amount Invested')}: </span>
-          {formatNumber(investmentDetails.invested)}€
+          <span className="text-gray-500">{t('Includes tax')}: </span>
+          {formatNumber(investmentDetails.profit * 0.72)}€
         </div>
 
         <Separator className="my-4" />
