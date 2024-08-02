@@ -76,6 +76,7 @@ const resources = {
       Design: 'Developed and designed by',
       Result: 'Result (profif - costs)',
       'Includes tax': 'Capital gains taxes',
+      'Despite reduction': 'No reduction in the loan term',
     },
   },
   es: {
@@ -151,6 +152,7 @@ const resources = {
       Design: 'Desarrollado y diseñado por',
       Result: 'Resultado (ganancias - costes)',
       'Includes tax': 'Impuestos sobre las ganancias (28%)',
+      'Despite reduction': 'Sin reducción del plazo del préstamo',
     },
   },
   pt: {
@@ -226,6 +228,7 @@ const resources = {
       Design: 'Desenvolvida e desenhada por',
       Result: 'Resultado (ganhos - custos)',
       'Includes tax': 'Impostos sobre mais valias (28%)',
+      'Despite reduction': 'Não houve redução do termo do empréstimo',
     },
   },
 };

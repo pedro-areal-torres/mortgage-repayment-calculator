@@ -37,12 +37,12 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
         </div> 
         */}
         <div className="text-sm">
-          <span className="text-gray-500">{t('Result')}: </span>
-          {formatNumber(overview.net)}€
-        </div>
-        <div className="text-sm">
           <span className="text-gray-500">{t('Amount Invested')}: </span>
           {formatNumber(investmentDetails.invested)}€
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Result')}: </span>
+          {formatNumber(overview.net)}€
         </div>
         <CalculatorInfoPreviousCosts />
 
