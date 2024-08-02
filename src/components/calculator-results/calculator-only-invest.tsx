@@ -5,6 +5,7 @@ import { cn } from '../../lib/utils';
 import { formatNumber } from '../../utils/format-number.utils';
 import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
 import { MortgageCalculationResult } from '../../utils/calculator.utils';
+import CalculatorInfoIncludesTax from '../calculator-info/calculator-info-includes-tax';
 
 interface Props {
   calculation: MortgageCalculationResult;
@@ -14,56 +15,62 @@ interface Props {
 export default function CalculatorOnlyInvest({ calculation, currentTab }: Props) {
   const { t } = useTranslation();
 
+  const { overview, assetsDetails, mortgageDetails, investmentDetails } = calculation;
+
   return (
-    <></>
-    /*     <div className={cn('overflow-hidden rounded-lg bg-white px-4 py-5 shadow-md sm:p-4', currentTab !== 2 && 'hidden')}>
+    <div className={cn('overflow-hidden rounded-lg bg-white px-4 py-5 shadow-md sm:p-4', currentTab !== 2 && 'hidden')}>
       <dd className="mt-1 text-md font-normal tracking-tight text-gray-900">
         <div className="text-md font-semibold mt-1">{t('Resume')}</div>
         <div className="text-sm mt-1">
           <span className="text-gray-500">
             {t('Total Assets by end')}
-            {calculation.noAction.totalMonths} {t('Months')}:{' '}
+            {mortgageDetails.totalMonths} {t('Months')}:{' '}
           </span>
-          {formatNumber(totalAssetOnlyInvest)}€
+          {formatNumber(overview.earned)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('From today out pocket')}: </span>
-          {formatNumber(totalCostsOnlyInvest)}€
+          {formatNumber(overview.costs)}€
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">{t('ROIC')}: </span>
-          {formatNumber(returnOnlyInvest)}%
+          <span className="text-gray-500">{t('Result')}: </span>
+          {formatNumber(overview.net)}€
         </div>
         <CalculatorInfoPreviousCosts />
+        <CalculatorInfoIncludesTax />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Cost details')}</div>
         <div className="text-sm mt-1">
           <span className="text-gray-500">{t('Mortgage Cost')}: </span>
-          {formatNumber(calculation.onlyInvesting.totalCost)}€
+          {formatNumber(mortgageDetails.totalCost)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Cost')}: </span>
-          {formatNumber(calculation.onlyInvesting.totalInterest)}€
+          {formatNumber(mortgageDetails.totalInterest)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Amount Invested')}: </span>
-          {formatNumber(calculation.noAction.totalSaved)}€
+          {formatNumber(investmentDetails.invested)}€
         </div>
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Assets details')}</div>
         <div className="text-sm mt-1">
           <span className="text-gray-500">{t('House')}: </span>
-          {formatNumber(calculation.onlyInvesting.totalAssets)}€
+          {formatNumber(assetsDetails.houseValue)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('SP Profit')}: </span>
-          {formatNumber(calculation.onlyInvesting.investmentDetails.profit)}€
+          {formatNumber(investmentDetails.profit)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Invested with profit')}: </span>
-          {formatNumber(calculation.onlyInvesting.investmentDetails.totalEarned)}€
+          {formatNumber(investmentDetails.invested + investmentDetails.profit)}€
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Savings')}: </span>
+          {formatNumber(assetsDetails.savings)}€
         </div>
         <div className="flex flex-row gap-1 items-center mt-2">
           <svg fill="currentColor" color="gray" viewBox="0 0 16 16" height=".8rem" width=".8rem">
@@ -100,7 +107,7 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white">
-                          {calculation.noAction.paymentDetails.map((detail) => (
+                          {mortgageDetails.monthlyPayments.map((detail) => (
                             <tr key={detail.month}>
                               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{detail.month}</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.monthlyPayment)}€</td>
@@ -119,6 +126,6 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
           </AccordionItem>
         </Accordion>
       </dd>
-    </div> */
+    </div>
   );
 }

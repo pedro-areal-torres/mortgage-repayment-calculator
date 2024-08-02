@@ -74,6 +74,8 @@ const resources = {
       Disclaimer:
         'This calculator has been developed to help analyze financial scenarios related to home loans and investments. However, despite efforts to ensure the accuracy of calculations, errors or inaccuracies may occur. We always recommend consulting a qualified financial advisor before making any financial decision based on the results provided by this tool.',
       Design: 'Developed and designed by',
+      Result: 'Result',
+      'Includes tax': 'Considers a rate of 28% on the capital gains obtained from the investment',
     },
   },
   es: {
@@ -102,8 +104,7 @@ const resources = {
       '2 by 2 y': 'Cada 2 años',
       '3 by 3 y': 'Cada 3 años',
       '5 by 5 y': 'Cada 5 años',
-      'Calculator info':
-        'Rellena los valores partiendo de la suposición de que quieres amortizar tu crédito hipotecario',
+      'Calculator info': 'Rellena los valores partiendo de la suposición de que quieres amortizar tu crédito hipotecario',
       'Mortgage Cost': 'Costo del capital en deuda',
       Required: 'Campo obligatorio',
       'Number must be greater than 0': 'El valor debe ser positivo',
@@ -123,11 +124,11 @@ const resources = {
       'Only Repayments': 'Solo amortizar',
       Resume: 'Resumen',
       'Cost details': 'Detalles de los costos',
-      'Assets details': 'Detalles del patrimonio',
+      'Assets details': 'Detalles del las ganancias',
       'Total Assets': 'Patrimonio total',
       Return: 'Retorno',
       'From today out pocket': 'Saldrá de tu bolsillo*',
-      'Total Assets by end': 'Patrimonio después de ',
+      'Total Assets by end': 'Ganancias despues de ',
       'Average Return': 'Crecimiento medio anual',
       'Interest Cost': 'Pagaste en intereses',
       'Repayment done': 'Amortizaste anticipadamente',
@@ -148,6 +149,8 @@ const resources = {
       Disclaimer:
         'Esta calculadora ha sido desarrollada para ayudar a analizar escenarios financieros relacionados con préstamos hipotecarios e inversiones. Sin embargo, a pesar de los esfuerzos realizados para garantizar la exactitud de los cálculos, pueden producirse errores o imprecisiones. Siempre recomendamos consultar a un asesor financiero cualificado antes de tomar cualquier decisión financiera basada en los resultados proporcionados por esta herramienta.',
       Design: 'Desarrollado y diseñado por',
+      Result: 'Resultado',
+      'Includes tax': 'Considera un tipo del 28% sobre las plusvalías obtenidas de la inversión',
     },
   },
   pt: {
@@ -176,8 +179,7 @@ const resources = {
       '2 by 2 y': '2 em 2 anos',
       '3 by 3 y': '3 em 3 anos',
       '5 by 5 y': '5 em 5 anos',
-      'Calculator info':
-        'Preencha os valores partindo do pressuposto que pretende amortizar o seu crédito habitação',
+      'Calculator info': 'Preencha os valores partindo do pressuposto que pretende amortizar o seu crédito habitação',
       'Mortgage Cost': 'Custo do capital em dívida',
       Required: 'Campo obrigatório',
       'Number must be greater than 0': 'Valor deve ser positivo',
@@ -197,11 +199,11 @@ const resources = {
       'Only Repayments': 'Apenas amortizar',
       Resume: 'Resumo',
       'Cost details': 'Custos',
-      'Assets details': 'Património',
+      'Assets details': 'Ganhos',
       'Total Assets': 'Património total',
       Return: 'Retorno',
       'From today out pocket': 'Sairá do seu bolso',
-      'Total Assets by end': 'Património após ',
+      'Total Assets by end': 'Ganhos após ',
       'Average Return': 'Crescimento médio anual',
       'Interest Cost': 'Pagou em juros',
       'Repayment done': 'Amortizou antecipadamente',
@@ -222,6 +224,8 @@ const resources = {
       Disclaimer:
         'Esta calculadora foi desenvolvida para ajudar na análise de cenários financeiros relacionados ao crédito habitação e investimentos. No entanto, apesar dos esforços para garantir a precisão dos cálculos, podem ocorrer erros ou imprecisões. Recomendamos sempre consultar um consultor financeiro qualificado antes de tomar qualquer decisão financeira baseada nos resultados fornecidos por esta ferramenta.',
       Design: 'Desenvolvida e desenhada por',
+      Result: 'Resultado',
+      'Includes tax': 'Considera taxa de 28% nas mais valias obtidas no investimento',
     },
   },
 };
