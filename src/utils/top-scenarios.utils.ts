@@ -1,56 +1,33 @@
 import { CalculationResult } from './calculator.utils';
 
-export function topScenarios(calculation?: CalculationResult) {
+export function topScenarios(calculation?: CalculationResult): { best: string; worst: string } {
   if (calculation) {
-    // NO ACTION
-    const totalAssetNoAction =
-      calculation.noAction.totalAssets + calculation.noAction.totalSaved;
+    const { noAction, onlyRepayment, onlyInvesting, fiftyFifty } = calculation;
 
-    // ONLY INVEST
-    const totalAssetOnlyInvest =
-      calculation.onlyInvesting.totalAssets +
-      calculation.onlyInvesting.investmentDetails.totalEarnedOnSP;
+    const totalAssetNoAction = noAction.overview.net;
+    const totalAssetOnlyRepayment = onlyRepayment.overview.net;
+    const totalAssetOnlyInvest = onlyInvesting.overview.net;
+    const totalAssetFiftyFifty = fiftyFifty.overview.net;
 
-    // ONLY REPAYMENT
-    const totalAssetOnlyRepayment =
-      calculation.onlyRepayment.totalAssets +
-      calculation.onlyRepayment.totalSaved;
+    const maxVal = Math.max(totalAssetNoAction, totalAssetOnlyInvest, totalAssetOnlyRepayment, totalAssetFiftyFifty);
 
-    // 50 / 50
-    const totalAssetFiftyFifty =
-      calculation.fiftyFifty.totalAssets +
-      calculation.fiftyFifty.investmentDetails.totalEarnedOnSP +
-      calculation.fiftyFifty.totalSaved;
+    const minVal = Math.min(totalAssetNoAction, totalAssetOnlyInvest, totalAssetOnlyRepayment, totalAssetFiftyFifty);
 
-    const maxVal = Math.max(
-      totalAssetNoAction,
-      totalAssetOnlyInvest,
-      totalAssetOnlyRepayment,
-      totalAssetFiftyFifty
-    );
+    const options = { best: 'N/A', worst: 'N/A' };
 
-    const minVal = Math.min(
-      totalAssetNoAction,
-      totalAssetOnlyInvest,
-      totalAssetOnlyRepayment,
-      totalAssetFiftyFifty
-    );
+    if (maxVal === totalAssetNoAction) options.best = 'Mortgage Without Repayments';
+    if (minVal === totalAssetNoAction) options.worst = 'Mortgage Without Repayments';
 
-    const options = [];
+    if (maxVal === totalAssetOnlyRepayment) options.best = 'Only Repayments';
+    if (minVal === totalAssetOnlyRepayment) options.worst = 'Only Repayments';
 
-    if (maxVal === totalAssetNoAction || minVal === totalAssetNoAction)
-      options.push('Mortgage Without Repayments');
-    if (maxVal === totalAssetOnlyInvest || minVal === totalAssetOnlyInvest)
-      options.push('Only Invest');
-    if (
-      maxVal === totalAssetOnlyRepayment ||
-      minVal === totalAssetOnlyRepayment
-    )
-      options.push('Only Repayments');
-    if (maxVal === totalAssetFiftyFifty || minVal === totalAssetFiftyFifty)
-      options.push('Fifty Fifty');
+    if (maxVal === totalAssetOnlyInvest) options.best = 'Only Invest';
+    if (minVal === totalAssetOnlyInvest) options.worst = 'Only Invest';
+
+    if (maxVal === totalAssetFiftyFifty) options.best = 'Fifty Fifty';
+    if (minVal === totalAssetFiftyFifty) options.worst = 'Fifty Fifty';
 
     return options;
   }
-  return [];
+  return { best: 'N/A', worst: 'N/A' };
 }

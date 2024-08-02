@@ -18,7 +18,7 @@ function CalculatorTable({ calculation }: Props) {
   const { t } = useTranslation();
   const [currentTab, setCurrentTab] = useState<number>(0);
 
-  const topArr = topScenarios(calculation);
+  const { best, worst } = topScenarios(calculation);
 
   console.log({ calculation });
 
@@ -28,36 +28,27 @@ function CalculatorTable({ calculation }: Props) {
         <>
           <div className="my-4 flex flex-col sm:flex-row gap-2">
             <div className="bg-green-400 rounded p-2 text-sm border-gray-500 border font-normal w-full">
-              {t('Most beneficial')}:{' '}
-              <span className="font-bold">{t(topArr[0])}</span>
+              {t('Most beneficial')}: <span className="font-bold">{t(best)}</span>
             </div>
             <div className="bg-red-300 rounded p-2 text-sm border-gray-500 border font-normal w-full">
-              {t('Least beneficial')}:{' '}
-              <span className="font-bold">{t(topArr[1])}</span>
+              {t('Least beneficial')}: <span className="font-bold">{t(worst)}</span>
             </div>
           </div>
           <Separator />
           <div>
-            <CalculatorTabs
-              currentTab={currentTab}
-              setCurrentTab={setCurrentTab}
-            />
+            <CalculatorTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
             <dl className="mt-5 grid grid-cols-1 gap-5">
-              <CalculatorNoAction
-                calculation={calculation}
-                currentTab={currentTab}
-              />
+              <CalculatorNoAction calculation={calculation.noAction} currentTab={currentTab} />
               <CalculatorOnlyRepayment
-                calculation={calculation}
+                calculation={calculation.onlyRepayment}
                 currentTab={currentTab}
+                initialTotalMonths={calculation.noAction.mortgageDetails.totalMonths}
               />
-              <CalculatorOnlyInvest
-                calculation={calculation}
-                currentTab={currentTab}
-              />
+              <CalculatorOnlyInvest calculation={calculation.onlyInvesting} currentTab={currentTab} />
               <CalculatorFiftyFifty
-                calculation={calculation}
+                calculation={calculation.fiftyFifty}
                 currentTab={currentTab}
+                initialTotalMonths={calculation.noAction.mortgageDetails.totalMonths}
               />
             </dl>
           </div>
