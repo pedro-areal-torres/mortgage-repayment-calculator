@@ -186,7 +186,6 @@ function calculateMortgageDetails(
     }
   }
 
-  const totalInterestPaid = monthlyPayments.reduce((prev, curr) => (prev += curr.interestPaid), 0);
   const totalSavedOnInterest = monthlyPayments.reduce((prev, curr) => (prev += curr.totalInterestSavedWithRepayment), 0);
 
   return {
