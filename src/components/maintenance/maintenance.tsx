@@ -11,7 +11,7 @@ export default function Maintenance() {
         <h1 className="mb-4 text-4xl font-bold tracking-tight leading-none text-gray-900 lg:mb-6 md:text-5xl xl:text-6xl dark:text-white">
           Em manutenção
         </h1>
-        <p className="font-light text-gray-500 md:text-lg xl:text-xl dark:text-gray-400">Ficará disponível ao final do dia</p>
+        <p className="font-light text-gray-500 md:text-lg xl:text-xl dark:text-gray-400">Ficará disponível em breve</p>
       </div>
     </section>
   );
