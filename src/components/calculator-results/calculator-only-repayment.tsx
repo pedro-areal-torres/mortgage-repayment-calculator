@@ -40,29 +40,21 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
           <span className="text-gray-500">{t('Result')}: </span>
           {formatNumber(overview.net)}€
         </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Term reduction')}: </span>
+          {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
+        </div>
         <CalculatorInfoPreviousCosts />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Cost details')}</div>
         <div className="text-sm mt-1">
           <span className="text-gray-500">{t('Mortgage Cost')}: </span>
-          {formatNumber(mortgageDetails.totalCost)}€
+          {formatNumber(mortgageDetails.totalDebt)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Cost')}: </span>
           {formatNumber(mortgageDetails.totalInterest)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Interest Saved')}: </span>
-          {formatNumber(mortgageDetails.totalSavedOnInterest)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Repayment done')}: </span>
-          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Term reduction')}: </span>
-          {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
         </div>
         <CalculatorInfoRepaymentPenalty />
 
@@ -71,6 +63,10 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
         <div className="text-sm mt-1">
           <span className="text-gray-500">{t('House')}: </span>
           {formatNumber(assetsDetails.houseValue)}€
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Interest Saved')}: </span>
+          {formatNumber(mortgageDetails.totalSavedOnInterest)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Savings')}: </span>

@@ -5,7 +5,6 @@ import { cn } from '../../lib/utils';
 import { formatNumber } from '../../utils/format-number.utils';
 import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
 import { MortgageCalculationResult } from '../../utils/calculator.utils';
-import CalculatorInfoIncludesTax from '../calculator-info/calculator-info-includes-tax';
 
 interface Props {
   calculation: MortgageCalculationResult;
@@ -32,26 +31,34 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
           <span className="text-gray-500">{t('From today out pocket')}: </span>
           {formatNumber(overview.costs)}€
         </div>
+        {/* <div className="text-sm">
+          <span className="text-gray-500">{t('Invested with profit')}: </span>
+          {formatNumber(investmentDetails.invested + investmentDetails.profit)}€
+        </div> 
+        */}
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
           {formatNumber(overview.net)}€
         </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Amount Invested')}: </span>
+          {formatNumber(investmentDetails.invested)}€
+        </div>
         <CalculatorInfoPreviousCosts />
-        <CalculatorInfoIncludesTax />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Cost details')}</div>
         <div className="text-sm mt-1">
           <span className="text-gray-500">{t('Mortgage Cost')}: </span>
-          {formatNumber(mortgageDetails.totalCost)}€
+          {formatNumber(mortgageDetails.totalDebt)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Cost')}: </span>
           {formatNumber(mortgageDetails.totalInterest)}€
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">{t('Amount Invested')}: </span>
-          {formatNumber(investmentDetails.invested)}€
+          <span className="text-gray-500">{t('Includes tax')}: </span>
+          {formatNumber(investmentDetails.profit * 0.72)}€
         </div>
 
         <Separator className="my-4" />
@@ -63,10 +70,6 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
         <div className="text-sm">
           <span className="text-gray-500">{t('SP Profit')}: </span>
           {formatNumber(investmentDetails.profit)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Invested with profit')}: </span>
-          {formatNumber(investmentDetails.invested + investmentDetails.profit)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Savings')}: </span>
