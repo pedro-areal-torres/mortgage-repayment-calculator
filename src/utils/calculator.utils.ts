@@ -71,7 +71,7 @@ export function calculate(
 ): CalculationResult {
   const houseValue = calculateHouseValuation(amountPaid, mortgageTermMonths, yearPurchase);
 
-  const noActionDetails = calculateNoAction(houseValue, amountInDebt, interestRate, mortgageTermMonths, amountSaved);
+  const noActionDetails = calculateNoAction(houseValue, amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
 
   const onlyRepaymentDetails = calculateOnlyRepayment(houseValue, amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
 
@@ -249,10 +249,11 @@ function calculateNoAction(
   amountInDebt: number,
   interestRate: number,
   mortgageTermMonths: number,
-  amountSaved: number
+  amountSaved: number,
+  frequency: number
 ): MortgageCalculationResult {
-  const mortgageTermYears = Math.floor(mortgageTermMonths / 12);
-  const savings = amountSaved * mortgageTermYears;
+  const savingsCount = Math.floor(mortgageTermMonths / frequency);
+  const savings = amountSaved * savingsCount;
 
   const mortgageDetails = calculateMortgageDetails(amountInDebt, interestRate, mortgageTermMonths, 0, 0);
 
@@ -287,10 +288,8 @@ function calculateOnlyRepayment(
 ): MortgageCalculationResult {
   const mortgageDetails = calculateMortgageDetails(amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
 
-  const termAntecipation = mortgageTermMonths - mortgageDetails.totalMonths;
-  const savings =
-    Math.ceil(termAntecipation) * amountSaved +
-    (amountSaved * mortgageDetails.repaymentDetails.count - mortgageDetails.repaymentDetails.amount);
+  const savingsCount = Math.floor(mortgageTermMonths / frequency);
+  const savings = amountSaved * savingsCount - mortgageDetails.repaymentDetails.amount;
 
   const earned = houseValue + mortgageDetails.totalSavedOnInterest + savings;
   const costs = mortgageDetails.totalCost;
@@ -367,7 +366,9 @@ function calculateFiftyFifty(
 
   const termAntecipation = mortgageTermMonths - mortgageDetails.totalMonths;
   const investingMonths = mortgageTermMonths - termAntecipation;
-  const savings = Math.ceil(termAntecipation) * amountSaved * 2;
+
+  const savingsCount = Math.floor(mortgageTermMonths / frequency);
+  const savings = (amountSaved * savingsCount - mortgageDetails.repaymentDetails.amount) * 2;
 
   const invested = mortgageDetails.repaymentDetails.amount;
   const earnedInvestment = calculateEarnedInvesting(investingMonths, frequency, amountSaved, investmentAvgReturn);

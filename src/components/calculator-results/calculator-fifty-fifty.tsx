@@ -138,10 +138,12 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.principalPaid)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.remainingDebt)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.monthlyPaymentReduction ? `${formatNumber(detail.monthlyPaymentReduction)}€` : '-'}
+                                {detail.monthlyPaymentReduction
+                                  ? `${formatNumber(detail.monthlyPaymentReduction)}€ (${t('Which')} ${formatNumber(detail.monthlyPaymentSavedInterest)}€ ${t('Are Interest')})`
+                                  : '-'}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.returnOnRepaymentPercentage ? `${detail.returnOnRepaymentPercentage}%` : '-'}
+                                {detail.monthlyPaymentReduction ? `${formatNumber(detail.totalInterestSavedWithRepayment)}€` : '-'}
                               </td>
                             </tr>
                           ))}

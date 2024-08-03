@@ -77,6 +77,8 @@ const resources = {
       Result: 'Result (profif - costs)',
       'Includes tax': 'Capital gains taxes',
       'Despite reduction': 'No reduction in the loan term',
+      Which: 'of which',
+      'Are Interest': 'are interest',
     },
   },
   es: {
@@ -153,6 +155,8 @@ const resources = {
       Result: 'Resultado (ganancias - costes)',
       'Includes tax': 'Impuestos sobre las ganancias (28%)',
       'Despite reduction': 'Sin reducción del plazo del préstamo',
+      Which: 'de los cuales',
+      'Are Interest': 'son intereses',
     },
   },
   pt: {
@@ -218,7 +222,7 @@ const resources = {
       'Least beneficial': 'Cenários menos benéfico',
       'Fifty Fifty': 'Amortizar e investir (50/50)',
       'Monthly reduction': 'Redução da prestação',
-      'Monthly reduction return': 'Retorno da amortização',
+      'Monthly reduction return': 'Juros poupados com amortização',
       'Invested with profit': 'Montante investido incluindo lucros',
       'Past not included': 'Exclui custos com prestações pagas anteriores à data de hoje',
       ROIC: 'Retorno sobre capital investido (ROIC)',
@@ -229,6 +233,8 @@ const resources = {
       Result: 'Resultado (ganhos - custos)',
       'Includes tax': 'Impostos sobre mais valias (28%)',
       'Despite reduction': 'As amortizações reduziram o custo total do crédito, mas não houve uma redução do prazo',
+      Which: 'dos quais',
+      'Are Interest': 'são juros',
     },
   },
 };

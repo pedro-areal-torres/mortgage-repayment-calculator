@@ -114,9 +114,6 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
                               {t('Monthly reduction')}
                             </th>
                             <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
-                              Redução dos juros
-                            </th>
-                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Monthly reduction return')}
                             </th>
                           </tr>
@@ -130,15 +127,12 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.principalPaid)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.remainingDebt)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.monthlyPaymentReduction ? `${formatNumber(detail.monthlyPaymentReduction)}€` : '-'}
-                              </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 {detail.monthlyPaymentReduction
-                                  ? `${formatNumber(detail.monthlyPaymentSavedInterest)}€ (total: ${formatNumber(detail.totalInterestSavedWithRepayment)}€)`
+                                  ? `${formatNumber(detail.monthlyPaymentReduction)}€ (${t('Which')} ${formatNumber(detail.monthlyPaymentSavedInterest)}€ ${t('Are Interest')})`
                                   : '-'}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.returnOnRepaymentPercentage ? `${formatNumber(detail.returnOnRepaymentPercentage)}%` : '-'}
+                                {detail.monthlyPaymentReduction ? `${formatNumber(detail.totalInterestSavedWithRepayment)}€` : '-'}
                               </td>
                             </tr>
                           ))}
