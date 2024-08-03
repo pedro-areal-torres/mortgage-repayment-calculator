@@ -42,7 +42,7 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
-          {formatNumber(overview.net)}€
+          <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
         </div>
         <CalculatorInfoPreviousCosts />
 
@@ -58,7 +58,7 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Includes tax')}: </span>
-          {formatNumber(investmentDetails.profit * 0.72)}€
+          {formatNumber(investmentDetails.profit * 0.28)}€
         </div>
 
         <Separator className="my-4" />

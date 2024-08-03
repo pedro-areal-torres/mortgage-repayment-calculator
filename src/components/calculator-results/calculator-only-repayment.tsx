@@ -37,6 +37,10 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
           {formatNumber(overview.costs)}€
         </div>
         <div className="text-sm">
+          <span className="text-gray-500">{t('Repayment done')}: </span>
+          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
+        </div>
+        <div className="text-sm">
           {termReduction === 0 ? (
             <span className="text-gray-500">{t('Despite reduction')}</span>
           ) : (
@@ -46,10 +50,9 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
             </>
           )}
         </div>
-        <Separator className="my-1" />
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
-          {formatNumber(overview.net)}€
+          <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
         </div>
         <CalculatorInfoPreviousCosts />
 

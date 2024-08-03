@@ -228,7 +228,7 @@ const resources = {
       Design: 'Desenvolvida e desenhada por',
       Result: 'Resultado (ganhos - custos)',
       'Includes tax': 'Impostos sobre mais valias (28%)',
-      'Despite reduction': 'Não houve redução do termo do empréstimo',
+      'Despite reduction': 'As amortizações reduziram o custo total do crédito, mas não houve uma redução do prazo',
     },
   },
 };

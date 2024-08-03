@@ -37,19 +37,28 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
           {formatNumber(overview.costs)}€
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">{t('Result')}: </span>
-          {formatNumber(overview.net)}€
+          <span className="text-gray-500">{t('Repayment done')}: </span>
+          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Amount Invested')}: </span>
           {formatNumber(investmentDetails.invested)}€
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">{t('Term reduction')}: </span>
-          {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
+          {termReduction === 0 ? (
+            <span className="text-gray-500">{t('Despite reduction')}</span>
+          ) : (
+            <>
+              <span className="text-gray-500">{t('Term reduction')}: </span>
+              {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
+            </>
+          )}
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Result')}: </span>
+          <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
         </div>
         <CalculatorInfoPreviousCosts />
-        <CalculatorInfoIncludesTax />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Cost details')}</div>
@@ -62,12 +71,8 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
           {formatNumber(mortgageDetails.totalInterest)}€
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">{t('Interest Saved')}: </span>
-          {formatNumber(mortgageDetails.totalSavedOnInterest)}€
-        </div>
-        <div className="text-sm">
           <span className="text-gray-500">{t('Includes tax')}: </span>
-          {formatNumber(investmentDetails.profit * 0.72)}€
+          {formatNumber(investmentDetails.profit * 0.28)}€
         </div>
 
         <Separator className="my-4" />
@@ -81,8 +86,8 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
           {formatNumber(investmentDetails.profit)}€
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">{t('Invested with profit')}: </span>
-          {formatNumber(investmentDetails.invested + investmentDetails.profit)}€
+          <span className="text-gray-500">{t('Interest Saved')}: </span>
+          {formatNumber(mortgageDetails.totalSavedOnInterest)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Savings')}: </span>

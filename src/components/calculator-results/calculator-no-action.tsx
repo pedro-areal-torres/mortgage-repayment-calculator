@@ -34,7 +34,7 @@ export default function CalculatorNoAction({ calculation, currentTab }: Props) {
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
-          {formatNumber(overview.net)}€
+          <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
         </div>
         <CalculatorInfoPreviousCosts />
 
