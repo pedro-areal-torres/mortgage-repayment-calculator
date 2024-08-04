@@ -326,7 +326,7 @@ function calculateOnlyInvesting(
 
   const termAntecipation = mortgageTermMonths - onlyRepaymentMortgage.totalMonths;
   const investingMonths = mortgageTermMonths - termAntecipation;
-  const savings = Math.ceil(termAntecipation) * amountSaved;
+  const savings = Math.floor(termAntecipation / frequency) * amountSaved;
 
   const invested = onlyRepaymentMortgage.repaymentDetails.amount;
   const earnedInvestment = calculateEarnedInvesting(investingMonths, frequency, amountSaved, investmentAvgReturn);
