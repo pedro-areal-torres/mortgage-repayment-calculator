@@ -6,7 +6,6 @@ import { formatNumber } from '../../utils/format-number.utils';
 import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
 import { MortgageCalculationResult } from '../../utils/calculator.utils';
 import CalculatorInfoHouseInflation from '../calculator-info/calculator-info-house-inflation';
-import CalculatorInfoIncludesTax from '../calculator-info/calculator-info-includes-tax';
 
 interface Props {
   calculation: MortgageCalculationResult;
