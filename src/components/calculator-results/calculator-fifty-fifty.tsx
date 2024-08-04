@@ -6,6 +6,7 @@ import { formatNumber } from '../../utils/format-number.utils';
 import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
 import { MortgageCalculationResult } from '../../utils/calculator.utils';
 import CalculatorInfoHouseInflation from '../calculator-info/calculator-info-house-inflation';
+import { calculateEndMortgageDate } from '../../utils/calculate-end-mortgage-date';
 
 interface Props {
   calculation: MortgageCalculationResult;
@@ -25,23 +26,8 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
       <dd className="mt-1 text-md font-normal tracking-tight text-gray-900">
         <div className="text-md font-semibold mt-1">{t('Resume')}</div>
         <div className="text-sm mt-1">
-          <span className="text-gray-500">
-            {t('Total Assets by end')}
-            {mortgageDetails.totalMonths} {t('Months')}:{' '}
-          </span>
-          {formatNumber(overview.earned)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('From today out pocket')}: </span>
-          {formatNumber(overview.costs)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Repayment done')}: </span>
-          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Amount Invested')}: </span>
-          {formatNumber(investmentDetails.invested)}€
+          <span className="text-gray-500">{t('Total Term')}: </span>
+          {calculateEndMortgageDate(mortgageDetails.totalMonths)} ({mortgageDetails.totalMonths} {t('Months')})
         </div>
         <div className="text-sm">
           {termReduction === 0 ? (
@@ -53,6 +39,24 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
             </>
           )}
         </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Repayment done')}: </span>
+          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Amount Invested')}: </span>
+          {formatNumber(investmentDetails.invested)}€
+        </div>
+
+        <div className="text-sm mt-1.5">
+          <span className="text-gray-500">{t('Total Assets by end')}: </span>
+          {formatNumber(overview.earned)}€
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('From today out pocket')}: </span>
+          {formatNumber(overview.costs)}€
+        </div>
+
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
           <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
@@ -87,10 +91,6 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Saved')}: </span>
           {formatNumber(mortgageDetails.totalSavedOnInterest)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Savings')}: </span>
-          {formatNumber(assetsDetails.savings)}€
         </div>
         <CalculatorInfoHouseInflation />
 

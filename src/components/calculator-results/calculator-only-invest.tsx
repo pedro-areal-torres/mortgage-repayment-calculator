@@ -5,6 +5,7 @@ import { cn } from '../../lib/utils';
 import { formatNumber } from '../../utils/format-number.utils';
 import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
 import { MortgageCalculationResult } from '../../utils/calculator.utils';
+import { calculateEndMortgageDate } from '../../utils/calculate-end-mortgage-date';
 
 interface Props {
   calculation: MortgageCalculationResult;
@@ -21,10 +22,15 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
       <dd className="mt-1 text-md font-normal tracking-tight text-gray-900">
         <div className="text-md font-semibold mt-1">{t('Resume')}</div>
         <div className="text-sm mt-1">
-          <span className="text-gray-500">
-            {t('Total Assets by end')}
-            {mortgageDetails.totalMonths} {t('Months')}:{' '}
-          </span>
+          <span className="text-gray-500">{t('Total Term')}: </span>
+          {calculateEndMortgageDate(mortgageDetails.totalMonths)} ({mortgageDetails.totalMonths} {t('Months')})
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Amount Invested')}: </span>
+          {formatNumber(investmentDetails.invested)}€
+        </div>
+        <div className="text-sm mt-1.5">
+          <span className="text-gray-500">{t('Total Assets by end')}: </span>
           {formatNumber(overview.earned)}€
         </div>
         <div className="text-sm">
@@ -36,10 +42,6 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
           {formatNumber(investmentDetails.invested + investmentDetails.profit)}€
         </div> 
         */}
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Amount Invested')}: </span>
-          {formatNumber(investmentDetails.invested)}€
-        </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
           <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
@@ -70,10 +72,6 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
         <div className="text-sm">
           <span className="text-gray-500">{t('SP Profit')}: </span>
           {formatNumber(investmentDetails.profit)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Savings')}: </span>
-          {formatNumber(assetsDetails.savings)}€
         </div>
         <div className="flex flex-row gap-1 items-center mt-2">
           <svg fill="currentColor" color="gray" viewBox="0 0 16 16" height=".8rem" width=".8rem">

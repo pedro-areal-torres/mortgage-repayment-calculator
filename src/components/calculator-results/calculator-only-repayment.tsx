@@ -7,6 +7,7 @@ import { MortgageCalculationResult } from '../../utils/calculator.utils';
 import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
 import CalculatorInfoRepaymentPenalty from '../calculator-info/calculator-info-repayment-penalty';
 import CalculatorInfoHouseInflation from '../calculator-info/calculator-info-house-inflation';
+import { calculateEndMortgageDate } from '../../utils/calculate-end-mortgage-date';
 
 interface Props {
   calculation: MortgageCalculationResult;
@@ -26,19 +27,8 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
       <dd className="mt-1 text-md font-normal tracking-tight text-gray-900">
         <div className="text-md font-semibold mt-1">{t('Resume')}</div>
         <div className="text-sm mt-1">
-          <span className="text-gray-500">
-            {t('Total Assets by end')}
-            {mortgageDetails.totalMonths} {t('Months')}:{' '}
-          </span>
-          {formatNumber(overview.earned)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('From today out pocket')}: </span>
-          {formatNumber(overview.costs)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Repayment done')}: </span>
-          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
+          <span className="text-gray-500">{t('Total Term')}: </span>
+          {calculateEndMortgageDate(mortgageDetails.totalMonths)} ({mortgageDetails.totalMonths} {t('Months')})
         </div>
         <div className="text-sm">
           {termReduction === 0 ? (
@@ -49,6 +39,18 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
               {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
             </>
           )}
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Repayment done')}: </span>
+          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
+        </div>
+        <div className="text-sm mt-1.5">
+          <span className="text-gray-500">{t('Total Assets by end')}: </span>
+          {formatNumber(overview.earned)}€
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('From today out pocket')}: </span>
+          {formatNumber(overview.costs)}€
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
@@ -77,10 +79,6 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Saved')}: </span>
           {formatNumber(mortgageDetails.totalSavedOnInterest)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Savings')}: </span>
-          {formatNumber(assetsDetails.savings)}€
         </div>
         <CalculatorInfoHouseInflation />
 
