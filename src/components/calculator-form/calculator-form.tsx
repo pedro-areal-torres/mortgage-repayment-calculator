@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '../ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
@@ -165,7 +165,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
             name="repayment"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t('Expected Repayment every 12 months')}</FormLabel>
+                <FormLabel>{t('Saving for repayment')}</FormLabel>
                 <FormControl>
                   <div className={cn('relative w-full rounded-md')}>
                     <Input type="number" step="any" placeholder="1000" {...field} className="flex w-full flex-col" />
@@ -174,7 +174,6 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
                     </div>
                   </div>
                 </FormControl>
-                <FormDescription>{t('Saving for repayment')}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

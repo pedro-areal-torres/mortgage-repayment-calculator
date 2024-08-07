@@ -12,7 +12,7 @@ function App() {
 
   const [calculation, setCalculationDetails] = React.useState<CalculationResult>();
 
-  const maintenance = true;
+  const maintenance = false;
 
   return (
     <>

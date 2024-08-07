@@ -7,6 +7,7 @@ import { MortgageCalculationResult } from '../../utils/calculator.utils';
 import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
 import CalculatorInfoRepaymentPenalty from '../calculator-info/calculator-info-repayment-penalty';
 import CalculatorInfoHouseInflation from '../calculator-info/calculator-info-house-inflation';
+import { calculateEndMortgageDate } from '../../utils/calculate-end-mortgage-date';
 
 interface Props {
   calculation: MortgageCalculationResult;
@@ -26,10 +27,25 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
       <dd className="mt-1 text-md font-normal tracking-tight text-gray-900">
         <div className="text-md font-semibold mt-1">{t('Resume')}</div>
         <div className="text-sm mt-1">
-          <span className="text-gray-500">
-            {t('Total Assets by end')}
-            {mortgageDetails.totalMonths} {t('Months')}:{' '}
-          </span>
+          <span className="text-gray-500">{t('Total Term')}: </span>
+          {calculateEndMortgageDate(mortgageDetails.totalMonths)} ({mortgageDetails.totalMonths} {t('Months')})
+        </div>
+        <div className="text-sm">
+          {termReduction === 0 ? (
+            <span className="text-gray-500">{t('Despite reduction')}</span>
+          ) : (
+            <>
+              <span className="text-gray-500">{t('Term reduction')}: </span>
+              {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
+            </>
+          )}
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Repayment done')}: </span>
+          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
+        </div>
+        <div className="text-sm mt-1.5">
+          <span className="text-gray-500">{t('Total Assets by end')}: </span>
           {formatNumber(overview.earned)}€
         </div>
         <div className="text-sm">
@@ -38,11 +54,7 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
         </div>
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
-          {formatNumber(overview.net)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Term reduction')}: </span>
-          {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
+          <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
         </div>
         <CalculatorInfoPreviousCosts />
 
@@ -67,10 +79,6 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
         <div className="text-sm">
           <span className="text-gray-500">{t('Interest Saved')}: </span>
           {formatNumber(mortgageDetails.totalSavedOnInterest)}€
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Savings')}: </span>
-          {formatNumber(assetsDetails.savings)}€
         </div>
         <CalculatorInfoHouseInflation />
 
@@ -104,9 +112,6 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
                               {t('Monthly reduction')}
                             </th>
                             <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
-                              Redução dos juros
-                            </th>
-                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Monthly reduction return')}
                             </th>
                           </tr>
@@ -120,15 +125,12 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.principalPaid)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.remainingDebt)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.monthlyPaymentReduction ? `${formatNumber(detail.monthlyPaymentReduction)}€` : '-'}
-                              </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 {detail.monthlyPaymentReduction
-                                  ? `${formatNumber(detail.monthlyPaymentSavedInterest)}€ (total: ${formatNumber(detail.totalInterestSavedWithRepayment)}€)`
+                                  ? `${formatNumber(detail.monthlyPaymentReduction)}€ (${t('Which')} ${formatNumber(detail.monthlyPaymentSavedInterest)}€ ${t('Are Interest')})`
                                   : '-'}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.returnOnRepaymentPercentage ? `${formatNumber(detail.returnOnRepaymentPercentage)}%` : '-'}
+                                {detail.monthlyPaymentReduction ? `${formatNumber(detail.totalInterestSavedWithRepayment)}€` : '-'}
                               </td>
                             </tr>
                           ))}
