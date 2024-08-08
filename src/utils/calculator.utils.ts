@@ -16,6 +16,7 @@ interface OverviewDetails {
   earned: number;
   costs: number;
   net: number;
+  cagr: number;
 }
 
 interface AssetsDetails {
@@ -242,6 +243,13 @@ function calculateHouseValuation(amountPaid: number, mortgageTermMonths: number,
   return houseValuation;
 }
 
+function calculateCAGR(investment: number, returnAmount: number, months: number): number {
+  const totalReturn = (returnAmount - investment) / investment;
+  const annualizedReturn = (Math.pow(1 + totalReturn, 12 / months) - 1) * 100;
+
+  return annualizedReturn;
+}
+
 // No Action (Nao investir nem Amortizar)
 function calculateNoAction(
   houseValue: number,
@@ -260,11 +268,15 @@ function calculateNoAction(
   const earned = houseValue + savings;
   const costs = mortgageDetails.totalCost;
 
+  const net = earned - costs;
+  const cagr = calculateCAGR(costs, net, mortgageDetails.totalMonths);
+
   return {
     overview: {
       earned,
       costs,
       net: earned - costs,
+      cagr,
     },
     assetsDetails: {
       houseValue,
@@ -291,15 +303,18 @@ function calculateOnlyRepayment(
   // const savingsCount = Math.floor(mortgageTermMonths / frequency);
   // const savings = amountSaved * savingsCount - mortgageDetails.repaymentDetails.amount;
 
-  // const earned = houseValue + mortgageDetails.totalSavedOnInterest + savings;
   const earned = houseValue + mortgageDetails.totalSavedOnInterest;
   const costs = mortgageDetails.totalCost;
+
+  const net = earned - costs;
+  const cagr = calculateCAGR(costs, net, mortgageDetails.totalMonths);
 
   return {
     overview: {
       earned,
       costs,
-      net: earned - costs,
+      net,
+      cagr,
     },
     assetsDetails: {
       houseValue,
@@ -323,23 +338,22 @@ function calculateOnlyInvesting(
 ): MortgageCalculationResult {
   const { mortgageDetails: noActionMortage } = noActionDetails;
 
-  // const termAntecipation = mortgageTermMonths - onlyRepaymentMortgage.totalMonths;
-  // const investingMonths = mortgageTermMonths - termAntecipation;
-  // const savings = Math.floor(termAntecipation / frequency) * amountSaved;
-
   const invested = noActionDetails.assetsDetails.savings;
   const earnedInvestment = calculateEarnedInvesting(mortgageTermMonths, frequency, amountSaved, investmentAvgReturn);
   const profit = earnedInvestment - invested;
 
-  //const earned = houseValue + profit + savings;
   const earned = houseValue + profit;
   const costs = noActionMortage.totalCost + 0.28 * profit;
+
+  const net = earned - costs;
+  const cagr = calculateCAGR(noActionMortage.totalCost, net, noActionDetails.mortgageDetails.totalMonths);
 
   return {
     overview: {
       earned,
       costs,
       net: earned - costs,
+      cagr,
     },
     assetsDetails: {
       houseValue,
@@ -367,22 +381,22 @@ function calculateFiftyFifty(
   const termAntecipation = mortgageTermMonths - mortgageDetails.totalMonths;
   const investingMonths = mortgageTermMonths - termAntecipation;
 
-  // const savingsCount = Math.floor(mortgageTermMonths / frequency);
-  // const savings = (amountSaved * savingsCount - mortgageDetails.repaymentDetails.amount) * 2;
-
   const invested = mortgageDetails.repaymentDetails.amount;
   const earnedInvestment = calculateEarnedInvesting(investingMonths, frequency, amountSaved, investmentAvgReturn);
   const profit = earnedInvestment - invested;
 
-  // const earned = houseValue + mortgageDetails.totalSavedOnInterest + profit + savings;
   const earned = houseValue + mortgageDetails.totalSavedOnInterest + profit;
   const costs = mortgageDetails.totalCost + 0.28 * profit;
+
+  const net = earned - costs;
+  const cagr = calculateCAGR(costs, net, mortgageDetails.totalMonths);
 
   return {
     overview: {
       earned,
       costs,
       net: earned - costs,
+      cagr,
     },
     assetsDetails: {
       houseValue,

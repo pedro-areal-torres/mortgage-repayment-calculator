@@ -4,28 +4,28 @@ export function topScenarios(calculation?: CalculationResult): { best: string; w
   if (calculation) {
     const { noAction, onlyRepayment, onlyInvesting, fiftyFifty } = calculation;
 
-    const totalAssetNoAction = noAction.overview.net;
-    const totalAssetOnlyRepayment = onlyRepayment.overview.net;
-    const totalAssetOnlyInvest = onlyInvesting.overview.net;
-    const totalAssetFiftyFifty = fiftyFifty.overview.net;
+    const noActionCagr = noAction.overview.cagr;
+    const onlyRepaymentCagr = onlyRepayment.overview.cagr;
+    const onlyInvestingCagr = onlyInvesting.overview.cagr;
+    const fiftyFiftyCagr = fiftyFifty.overview.cagr;
 
-    const maxVal = Math.max(totalAssetNoAction, totalAssetOnlyInvest, totalAssetOnlyRepayment, totalAssetFiftyFifty);
+    const maxVal = Math.max(noActionCagr, onlyRepaymentCagr, onlyInvestingCagr, fiftyFiftyCagr);
 
-    const minVal = Math.min(totalAssetNoAction, totalAssetOnlyInvest, totalAssetOnlyRepayment, totalAssetFiftyFifty);
+    const minVal = Math.min(noActionCagr, onlyRepaymentCagr, onlyInvestingCagr, fiftyFiftyCagr);
 
     const options = { best: 'N/A', worst: 'N/A' };
 
-    if (maxVal === totalAssetNoAction) options.best = 'Mortgage Without Repayments';
-    if (minVal === totalAssetNoAction) options.worst = 'Mortgage Without Repayments';
+    if (maxVal === noActionCagr) options.best = 'Mortgage Without Repayments';
+    if (minVal === noActionCagr) options.worst = 'Mortgage Without Repayments';
 
-    if (maxVal === totalAssetOnlyRepayment) options.best = 'Only Repayments';
-    if (minVal === totalAssetOnlyRepayment) options.worst = 'Only Repayments';
+    if (maxVal === onlyRepaymentCagr) options.best = 'Only Repayments';
+    if (minVal === onlyRepaymentCagr) options.worst = 'Only Repayments';
 
-    if (maxVal === totalAssetOnlyInvest) options.best = 'Only Invest';
-    if (minVal === totalAssetOnlyInvest) options.worst = 'Only Invest';
+    if (maxVal === onlyInvestingCagr) options.best = 'Only Invest';
+    if (minVal === onlyInvestingCagr) options.worst = 'Only Invest';
 
-    if (maxVal === totalAssetFiftyFifty) options.best = 'Fifty Fifty';
-    if (minVal === totalAssetFiftyFifty) options.worst = 'Fifty Fifty';
+    if (maxVal === fiftyFiftyCagr) options.best = 'Fifty Fifty';
+    if (minVal === fiftyFiftyCagr) options.worst = 'Fifty Fifty';
 
     return options;
   }

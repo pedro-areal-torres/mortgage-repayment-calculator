@@ -238,6 +238,7 @@ const resources = {
       Which: 'dos quais',
       'Are Interest': 'são juros',
       'Total Term': 'Terminará de pagar o crédito',
+      CAGR: 'Taxa de Crescimento Anual Composta (CAGR)',
     },
   },
 };
