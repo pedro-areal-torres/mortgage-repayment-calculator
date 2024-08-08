@@ -251,8 +251,9 @@ function calculateNoAction(
   amountSaved: number,
   frequency: number
 ): MortgageCalculationResult {
-  const savingsCount = Math.floor(mortgageTermMonths / frequency);
-  const savings = amountSaved * savingsCount;
+  const savingsCount = mortgageTermMonths / frequency;
+  const savingRounded = Math.floor(mortgageTermMonths / frequency);
+  const savings = savingsCount - savingRounded === 0 ? amountSaved * (savingRounded - 1) : amountSaved * savingRounded;
 
   const mortgageDetails = calculateMortgageDetails(amountInDebt, interestRate, mortgageTermMonths, 0, 0);
 
