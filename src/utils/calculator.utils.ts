@@ -269,13 +269,13 @@ function calculateNoAction(
   const costs = mortgageDetails.totalCost;
 
   const net = earned - costs;
-  const cagr = calculateCAGR(costs, net, mortgageDetails.totalMonths);
+  const cagr = calculateCAGR(costs, earned, mortgageDetails.totalMonths);
 
   return {
     overview: {
       earned,
       costs,
-      net: earned - costs,
+      net,
       cagr,
     },
     assetsDetails: {
@@ -307,7 +307,7 @@ function calculateOnlyRepayment(
   const costs = mortgageDetails.totalCost;
 
   const net = earned - costs;
-  const cagr = calculateCAGR(costs, net, mortgageDetails.totalMonths);
+  const cagr = calculateCAGR(costs, earned, mortgageDetails.totalMonths);
 
   return {
     overview: {
@@ -346,13 +346,13 @@ function calculateOnlyInvesting(
   const costs = noActionMortage.totalCost + 0.28 * profit;
 
   const net = earned - costs;
-  const cagr = calculateCAGR(noActionMortage.totalCost, net, noActionDetails.mortgageDetails.totalMonths);
+  const cagr = calculateCAGR(costs, earned, noActionDetails.mortgageDetails.totalMonths);
 
   return {
     overview: {
       earned,
       costs,
-      net: earned - costs,
+      net,
       cagr,
     },
     assetsDetails: {
@@ -389,13 +389,13 @@ function calculateFiftyFifty(
   const costs = mortgageDetails.totalCost + 0.28 * profit;
 
   const net = earned - costs;
-  const cagr = calculateCAGR(costs, net, mortgageDetails.totalMonths);
+  const cagr = calculateCAGR(costs, earned, mortgageDetails.totalMonths);
 
   return {
     overview: {
       earned,
       costs,
-      net: earned - costs,
+      net,
       cagr,
     },
     assetsDetails: {
