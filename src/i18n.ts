@@ -221,7 +221,7 @@ const resources = {
       'SP Profit': 'Lucro obtido com o investimento',
       'Only Invest': 'Apenas investir',
       'Most beneficial': 'Cenário mais benéfico',
-      'Least beneficial': 'Cenários menos benéfico',
+      'Least beneficial': 'Cenário menos benéfico',
       'Fifty Fifty': 'Amortizar e investir (50/50)',
       'Monthly reduction': 'Redução da prestação',
       'Monthly reduction return': 'Juros poupados com amortização',
