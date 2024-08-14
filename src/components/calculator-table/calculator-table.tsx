@@ -20,8 +20,6 @@ function CalculatorTable({ calculation }: Props) {
 
   const { best, worst } = topScenarios(calculation);
 
-  console.log({ calculation });
-
   return (
     <>
       {calculation && (
