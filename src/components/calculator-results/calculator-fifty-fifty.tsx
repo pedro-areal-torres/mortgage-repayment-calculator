@@ -59,7 +59,11 @@ export default function CalculatorFiftyFifty({ calculation, currentTab, initialT
 
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
-          <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
+          <span>{formatNumber(overview.net)}€</span>
+        </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('CAGR')}: </span>
+          <span className="text-green-600 font-bold">{formatNumber(overview.cagr)}%</span>
         </div>
         <CalculatorInfoPreviousCosts />
 
