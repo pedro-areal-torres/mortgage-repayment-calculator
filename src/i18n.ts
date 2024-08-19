@@ -80,6 +80,8 @@ const resources = {
       Which: 'of which',
       'Are Interest': 'are interest',
       'Total Term': 'You will finish paying off your mortgage in ',
+      'Last Repayment': 'Last repayment exccess',
+      'Spare money': 'includes excess from the last payment'
     },
   },
   es: {
@@ -159,6 +161,8 @@ const resources = {
       Which: 'de los cuales',
       'Are Interest': 'son intereses',
       'Total Term': 'Terminará de pagar su hipoteca en ',
+      'Last Repayment': 'Utimo págo y a sobrado',
+      'Spare money': 'incluye exceso de la última cota'
     },
   },
   pt: {
@@ -238,6 +242,8 @@ const resources = {
       Which: 'dos quais',
       'Are Interest': 'são juros',
       'Total Term': 'Terminará de pagar o crédito',
+      'Last Repayment': 'Amortizou e sobrou',
+      'Spare money': 'inclui excesso da última amortização'
     },
   },
 };

@@ -80,6 +80,10 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
           <span className="text-gray-500">{t('Interest Saved')}: </span>
           {formatNumber(mortgageDetails.totalSavedOnInterest)}€
         </div>
+        <div className="text-sm">
+          <span className="text-gray-500">{t('Savings')}: </span>
+          {formatNumber(assetsDetails.savings)}€ {assetsDetails.savings > 0 && `(${t('Spare money')})`}
+        </div>
         <CalculatorInfoHouseInflation />
 
         <Accordion type="single" collapsible className="w-full">
@@ -123,11 +127,11 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.monthlyPayment)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.interestPaid)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.principalPaid)}€</td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.remainingDebt)}€</td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.remainingDebt > 0 ? detail.remainingDebt : 0)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.monthlyPaymentReduction
+                                {detail.lastRepaymentAmount === 0 ? detail.monthlyPaymentReduction
                                   ? `${formatNumber(detail.monthlyPaymentReduction)}€ (${t('Which')} ${formatNumber(detail.monthlyPaymentSavedInterest)}€ ${t('Are Interest')})`
-                                  : '-'}
+                                  : '-' : `${t('Last Repayment')} ${formatNumber((detail.lastRepaymentAmount - mortgageDetails.estimatedRepayment!) * (-1))}`}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 {detail.monthlyPaymentReduction ? `${formatNumber(detail.totalInterestSavedWithRepayment)}€` : '-'}
