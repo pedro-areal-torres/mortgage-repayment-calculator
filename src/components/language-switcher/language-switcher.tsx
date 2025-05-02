@@ -11,15 +11,15 @@ const LanguageSwitcher: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row">
       <Button variant="ghost" size="icon" onClick={() => changeLanguage('pt')}>
-        <PT title="Português" />
+        <PT title="Português" className="w-6" />
       </Button>
       <Button variant="ghost" size="icon" onClick={() => changeLanguage('es')}>
-        <ES title="Español" />
+        <ES title="Español" className="w-6" />
       </Button>
       <Button variant="ghost" size="icon" onClick={() => changeLanguage('en')}>
-        <US title="English" />
+        <US title="English" className="w-6" />
       </Button>
     </div>
   );

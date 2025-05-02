@@ -1,70 +1,22 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { Button } from '@components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@components/ui/form';
 
-import { Button } from '../ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-
-import { Input } from '../ui/input';
+import { Input } from '@components/ui/input';
 import { useTranslation } from 'react-i18next';
-import { calculate } from '../../utils/calculator.utils';
-import { cn } from '../../lib/utils';
-import CalculatorInfoDisclaimer from '../calculator-info/calculator-info-disclaimer';
-import CalculatorInfoOAF from '../calculator-info/calculator-info-oaf';
+import { cn } from '@lib/utils';
+import CalculatorInfoOAFIcon from '../../icons/calculator-info-oaf-icon';
+import { useCalculatorForm } from './use-calculator-form';
 
 interface Props {
   setCalculationDetails: any;
 }
 
-const year = new Date().getFullYear();
-const MAX_AMOUNT = 10000000;
-
-const formSchema = z
-  .object({
-    yearPurchase: z.union([
-      z.nan(),
-      z.coerce
-        .number()
-        .int()
-        .positive()
-        .min(year - 40)
-        .max(year),
-    ]),
-    amountPaid: z.union([z.nan(), z.coerce.number().positive().min(1).max(MAX_AMOUNT)]),
-    debt: z.union([z.nan(), z.coerce.number().positive().min(1).max(MAX_AMOUNT)]),
-    interest: z.union([z.nan(), z.coerce.number().positive().min(1).max(20)]),
-    term: z.union([z.nan(), z.coerce.number().int().positive().min(1).max(480)]),
-    repayment: z.union([z.nan(), z.coerce.number().positive().min(0).max(MAX_AMOUNT)]),
-    spAvg: z.union([z.nan(), z.coerce.number().positive().min(0).max(100)]),
-    frequency: z.string(),
-  })
-  .refine((data) => (data.debt < data.repayment ? false : true), {
-    path: ['repayment'],
-    message: 'Repayment should be lower than debt',
-  })
-  .refine((data) => (data.amountPaid < data.debt ? false : true), {
-    path: ['repayment'],
-    message: 'Amuont paid should be higher than debt',
-  });
-
 export default function CalculatorForm({ setCalculationDetails }: Props) {
   const { t } = useTranslation();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const { yearPurchase, amountPaid, debt, interest, term, repayment, frequency, spAvg } = values;
-
-    const calculation = calculate(yearPurchase, amountPaid, debt, interest, term, repayment, Number(frequency), spAvg);
-
-    console.log({ calculation });
-
-    setCalculationDetails(calculation);
-  }
+  const { form, onSubmit } = useCalculatorForm(setCalculationDetails);
 
   return (
     <Form {...form}>
@@ -110,7 +62,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
           <FormField
             control={form.control}
-            name="debt"
+            name="amountInDebt"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t('Amount in Debt')}</FormLabel>
@@ -128,7 +80,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
           />
           <FormField
             control={form.control}
-            name="interest"
+            name="interestRate"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t('Annual Interest Rate')}</FormLabel>
@@ -146,7 +98,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
           />
           <FormField
             control={form.control}
-            name="term"
+            name="mortgageTermMonths"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t('Payment Term (months)')}</FormLabel>
@@ -162,7 +114,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
           <FormField
             control={form.control}
-            name="repayment"
+            name="amountSaved"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t('Saving for repayment')}</FormLabel>
@@ -184,7 +136,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t('Frequency')}</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={(val) => field.onChange(Number(val))} defaultValue={String(field.value)}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder={''} />
@@ -203,7 +155,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
           />
           <FormField
             control={form.control}
-            name="spAvg"
+            name="investmentAvgReturn"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>{t('Expected Return')}</FormLabel>
@@ -222,8 +174,7 @@ export default function CalculatorForm({ setCalculationDetails }: Props) {
         </div>
         <div className="flex flex-col sm:flex-row justify-start sm:justify-between items-end">
           <div className="hidden sm:flex sm:flex-col w-full">
-            <CalculatorInfoDisclaimer />
-            <CalculatorInfoOAF />
+            <CalculatorInfoOAFIcon />
           </div>
           <p className="w-full text-xs leading-6 text-slate-500 italic flex flex-row gap-1 justify-end">
             {t('Design')}: <a href="https://www.linkedin.com/in/pedro-areal-torres/">Pedro Torres</a>

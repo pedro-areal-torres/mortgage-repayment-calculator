@@ -1,20 +1,20 @@
 import { useTranslation } from 'react-i18next';
-import { Separator } from '../ui/separator';
-import { CalculationResult } from '../../utils/calculator.utils';
+import { Separator } from '@components/ui/separator';
+import { CalculationResult } from '@utils/calculator.utils';
 
-import { topScenarios } from '../../utils/top-scenarios.utils';
-import CalculatorTabs from '../calculator-tabs/calculator-tabs';
-import CalculatorNoAction from '../calculator-results/calculator-no-action';
-import CalculatorOnlyRepayment from '../calculator-results/calculator-only-repayment';
+import { topScenarios } from '@utils/top-scenarios.utils';
+import CalculatorTabs from '../tabs/calculator-tabs';
+import NoActionResult from '../results/no-action';
+import OnlyRepaymentResult from '../results/only-repayment';
 import { useState } from 'react';
-import CalculatorOnlyInvest from '../calculator-results/calculator-only-invest';
-import CalculatorFiftyFifty from '../calculator-results/calculator-fifty-fifty';
+import OnlyInvestResult from '../results/only-invest';
+import FiftyFiftyResult from '../results/fifty-fifty';
 
 interface Props {
   calculation?: CalculationResult;
 }
 
-function CalculatorTable({ calculation }: Props) {
+function CalculatorResultsTable({ calculation }: Props) {
   const { t } = useTranslation();
   const [currentTab, setCurrentTab] = useState<number>(0);
 
@@ -36,14 +36,14 @@ function CalculatorTable({ calculation }: Props) {
           <div>
             <CalculatorTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
             <dl className="mt-5 grid grid-cols-1 gap-5">
-              <CalculatorNoAction calculation={calculation.noAction} currentTab={currentTab} />
-              <CalculatorOnlyRepayment
+              <NoActionResult calculation={calculation.noAction} currentTab={currentTab} />
+              <OnlyRepaymentResult
                 calculation={calculation.onlyRepayment}
                 currentTab={currentTab}
                 initialTotalMonths={calculation.noAction.mortgageDetails.totalMonths}
               />
-              <CalculatorOnlyInvest calculation={calculation.onlyInvesting} currentTab={currentTab} />
-              <CalculatorFiftyFifty
+              <OnlyInvestResult calculation={calculation.onlyInvesting} currentTab={currentTab} />
+              <FiftyFiftyResult
                 calculation={calculation.fiftyFifty}
                 currentTab={currentTab}
                 initialTotalMonths={calculation.noAction.mortgageDetails.totalMonths}
@@ -56,4 +56,4 @@ function CalculatorTable({ calculation }: Props) {
   );
 }
 
-export default CalculatorTable;
+export default CalculatorResultsTable;

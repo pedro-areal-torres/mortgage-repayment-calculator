@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { cn } from '../../lib/utils';
+import { cn } from '../../../lib/utils';
 
 interface Props {
   currentTab: number;
@@ -9,12 +9,7 @@ interface Props {
 export default function CalculatorTabs({ currentTab, setCurrentTab }: Props) {
   const { t } = useTranslation();
 
-  const tabs = [
-    t('Mortgage Without Repayments'),
-    t('Only Repayments'),
-    t('Only Invest'),
-    t('Fifty Fifty'),
-  ];
+  const tabs = [t('Mortgage Without Repayments'), t('Only Repayments'), t('Only Invest'), t('Fifty Fifty')];
 
   return (
     <div>

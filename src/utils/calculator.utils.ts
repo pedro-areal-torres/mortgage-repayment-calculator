@@ -1,81 +1,40 @@
-export interface CalculationResult {
-  noAction: MortgageCalculationResult;
-  onlyRepayment: MortgageCalculationResult;
-  onlyInvesting: MortgageCalculationResult;
-  fiftyFifty: MortgageCalculationResult;
-}
+import { CalculationResult, MortgageCalculationResult, MonthlyPaymentDetails, MortgageDetails } from 'types';
 
-export interface MortgageCalculationResult {
-  overview: OverviewDetails;
-  assetsDetails: AssetsDetails;
-  mortgageDetails: MortgageDetails;
-  investmentDetails: InvestmentDetails;
-}
-
-interface OverviewDetails {
-  earned: number;
-  costs: number;
-  net: number;
-}
-
-interface AssetsDetails {
-  houseValue: number;
-  savings: number;
-}
-
-interface MortgageDetails {
-  totalMonths: number;
-  totalCost: number;
-  totalInterest: number;
-  totalDebt: number;
-  totalSavedOnInterest: number;
-  estimatedRepayment?: number;
-  monthlyPayments: MonthlyPayments[];
-  repaymentDetails: RepaymentDetails;
-}
-
-interface MonthlyPayments {
-  month: number;
-  monthlyPayment: number;
-  interestPaid: number;
-  principalPaid: number;
-  remainingDebt: number;
-  monthlyPaymentReduction: number;
-  monthlyPaymentSavedInterest: number;
-  totalInterestSavedWithRepayment: number;
-  returnOnRepaymentPercentage: number;
-  lastRepaymentAmount: number;
-}
-
-interface RepaymentDetails {
-  amount: number;
-  count: number;
-}
-
-interface InvestmentDetails {
-  profit: number;
-  invested: number;
+interface CalculateProps {
+  yearPurchase: number;
+  amountPaid: number;
+  amountInDebt: number;
+  interestRate: number;
+  mortgageTermMonths: number;
+  amountSaved: number;
+  frequency: number;
+  investmentAvgReturn: number;
 }
 
 // Main function to calculate mortgage payment details
-export function calculate(
-  // Calculate house value
-  yearPurchase: number,
-  amountPaid: number,
-  // House mortgage
-  amountInDebt: number,
-  interestRate: number,
-  mortgageTermMonths: number,
-  // Savings and return
-  amountSaved: number = 0,
-  frequency: number,
-  investmentAvgReturn: number
-): CalculationResult {
+export function calculate({
+  yearPurchase,
+  amountPaid,
+  amountInDebt,
+  interestRate,
+  mortgageTermMonths,
+  amountSaved = 0,
+  frequency,
+  investmentAvgReturn,
+}: CalculateProps): CalculationResult {
   const houseValue = calculateHouseValuation(amountPaid, mortgageTermMonths, yearPurchase);
 
   const noActionDetails = calculateNoAction(houseValue, amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
 
-  const onlyRepaymentDetails = calculateOnlyRepayment(houseValue, amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency, noActionDetails);
+  const onlyRepaymentDetails = calculateOnlyRepayment(
+    houseValue,
+    amountInDebt,
+    interestRate,
+    mortgageTermMonths,
+    amountSaved,
+    frequency,
+    noActionDetails
+  );
 
   const onlyInvestingDetails = calculateOnlyInvesting(
     houseValue,
@@ -127,7 +86,7 @@ function calculateMortgageDetails(
   let countRepayments = 0;
   let totalRepayments = 0;
 
-  const monthlyPayments: MonthlyPayments[] = [];
+  const monthlyPayments: MonthlyPaymentDetails[] = [];
   let lastRepaymentAmount = 0;
 
   for (let month = 0; month < mortgageTermMonths; month++) {
@@ -157,9 +116,7 @@ function calculateMortgageDetails(
       monthlyPayment = newMonthlyPayment;
 
       countRepayments++;
-
     }
-
 
     const interestPaid = remainingDebt * monthlyInterestRate;
     const principalPaid = monthlyPayment - interestPaid;
@@ -187,7 +144,7 @@ function calculateMortgageDetails(
       monthlyPaymentSavedInterest,
       totalInterestSavedWithRepayment,
       returnOnRepaymentPercentage,
-      lastRepaymentAmount
+      lastRepaymentAmount,
     });
 
     if (remainingDebt <= 0) {
@@ -299,7 +256,7 @@ function calculateOnlyRepayment(
 ): MortgageCalculationResult {
   const mortgageDetails = calculateMortgageDetails(amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
 
-  const {assetsDetails: noActionAssets} = noActionDetails;
+  const { assetsDetails: noActionAssets } = noActionDetails;
   const savings = noActionAssets.savings - mortgageDetails.repaymentDetails.amount;
 
   // const earned = houseValue + mortgageDetails.totalSavedOnInterest + savings;
@@ -376,15 +333,15 @@ function calculateFiftyFifty(
 ): MortgageCalculationResult {
   const mortgageDetails = calculateMortgageDetails(amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
 
-  const {assetsDetails: noActionAssets} = noActionDetails;
-  
+  const { assetsDetails: noActionAssets } = noActionDetails;
+
   const termAntecipation = mortgageTermMonths - mortgageDetails.totalMonths;
   const investingMonths = mortgageTermMonths - termAntecipation;
-  
+
   const invested = mortgageDetails.repaymentDetails.amount;
   const earnedInvestment = calculateEarnedInvesting(investingMonths, frequency, amountSaved, investmentAvgReturn);
   const profit = earnedInvestment - invested;
-  
+
   const savings = noActionAssets.savings - mortgageDetails.repaymentDetails.amount - invested;
 
   // const earned = houseValue + mortgageDetails.totalSavedOnInterest + profit + savings;

@@ -1,18 +1,18 @@
 import { useTranslation } from 'react-i18next';
-import { Separator } from '../ui/separator';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
-import { cn } from '../../lib/utils';
-import { formatNumber } from '../../utils/format-number.utils';
-import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
-import { MortgageCalculationResult } from '../../utils/calculator.utils';
-import { calculateEndMortgageDate } from '../../utils/calculate-end-mortgage-date';
+import { Separator } from '@components/ui/separator';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@components/ui/accordion';
+import { cn } from '../../../lib/utils';
+import { formatNumber } from '@utils/format-number.utils';
+import CalculatorInfoPreviousCostsIcon from '../../icons/calculator-info-previous-costs-icon';
+import { calculateEndMortgageDate } from '@utils/calculate-end-mortgage-date';
+import { MortgageCalculationResult } from 'types';
 
 interface Props {
   calculation: MortgageCalculationResult;
   currentTab: number;
 }
 
-export default function CalculatorOnlyInvest({ calculation, currentTab }: Props) {
+export default function OnlyInvestResult({ calculation, currentTab }: Props) {
   const { t } = useTranslation();
 
   const { overview, assetsDetails, mortgageDetails, investmentDetails } = calculation;
@@ -37,16 +37,11 @@ export default function CalculatorOnlyInvest({ calculation, currentTab }: Props)
           <span className="text-gray-500">{t('From today out pocket')}: </span>
           {formatNumber(overview.costs)}€
         </div>
-        {/* <div className="text-sm">
-          <span className="text-gray-500">{t('Invested with profit')}: </span>
-          {formatNumber(investmentDetails.invested + investmentDetails.profit)}€
-        </div> 
-        */}
         <div className="text-sm">
           <span className="text-gray-500">{t('Result')}: </span>
           <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
         </div>
-        <CalculatorInfoPreviousCosts />
+        <CalculatorInfoPreviousCostsIcon />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Cost details')}</div>

@@ -1,48 +1,30 @@
 import { useTranslation } from 'react-i18next';
-import { Separator } from '../ui/separator';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
-import { cn } from '../../lib/utils';
-import { formatNumber } from '../../utils/format-number.utils';
-import { MortgageCalculationResult } from '../../utils/calculator.utils';
-import CalculatorInfoPreviousCosts from '../calculator-info/calculator-info-previous-costs';
-import CalculatorInfoRepaymentPenalty from '../calculator-info/calculator-info-repayment-penalty';
-import CalculatorInfoHouseInflation from '../calculator-info/calculator-info-house-inflation';
-import { calculateEndMortgageDate } from '../../utils/calculate-end-mortgage-date';
+import { Separator } from '@components/ui/separator';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@components/ui/accordion';
+import { cn } from '../../../lib/utils';
+import { formatNumber } from '@utils/format-number.utils';
+import CalculatorInfoPreviousCostsIcon from '../../icons/calculator-info-previous-costs-icon';
+import InflationIcon from '../../icons/inflation-icon';
+import { calculateEndMortgageDate } from '@utils/calculate-end-mortgage-date';
+import { MortgageCalculationResult } from 'types';
 
 interface Props {
   calculation: MortgageCalculationResult;
   currentTab: number;
-  initialTotalMonths: number;
 }
 
-export default function CalculatorOnlyRepayment({ calculation, currentTab, initialTotalMonths }: Props) {
+export default function NoActionResult({ calculation, currentTab }: Props) {
   const { t } = useTranslation();
 
   const { overview, assetsDetails, mortgageDetails } = calculation;
 
-  const termReduction = initialTotalMonths - mortgageDetails.totalMonths;
-
   return (
-    <div className={cn('overflow-hidden rounded-lg bg-white px-4 py-5 shadow-md sm:p-4', currentTab !== 1 && 'hidden')}>
+    <div className={cn('overflow-hidden rounded-lg bg-white px-4 py-5 shadow-md sm:p-4', currentTab !== 0 && 'hidden')}>
       <dd className="mt-1 text-md font-normal tracking-tight text-gray-900">
         <div className="text-md font-semibold mt-1">{t('Resume')}</div>
         <div className="text-sm mt-1">
           <span className="text-gray-500">{t('Total Term')}: </span>
           {calculateEndMortgageDate(mortgageDetails.totalMonths)} ({mortgageDetails.totalMonths} {t('Months')})
-        </div>
-        <div className="text-sm">
-          {termReduction === 0 ? (
-            <span className="text-gray-500">{t('Despite reduction')}</span>
-          ) : (
-            <>
-              <span className="text-gray-500">{t('Term reduction')}: </span>
-              {termReduction} {termReduction > 1 ? t('Months') : t('MonthL')}
-            </>
-          )}
-        </div>
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Repayment done')}: </span>
-          {formatNumber(mortgageDetails.repaymentDetails.amount)}€
         </div>
         <div className="text-sm mt-1.5">
           <span className="text-gray-500">{t('Total Assets by end')}: </span>
@@ -56,7 +38,7 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
           <span className="text-gray-500">{t('Result')}: </span>
           <span className="text-green-600 font-bold">{formatNumber(overview.net)}€</span>
         </div>
-        <CalculatorInfoPreviousCosts />
+        <CalculatorInfoPreviousCostsIcon />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Cost details')}</div>
@@ -68,7 +50,6 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
           <span className="text-gray-500">{t('Interest Cost')}: </span>
           {formatNumber(mortgageDetails.totalInterest)}€
         </div>
-        <CalculatorInfoRepaymentPenalty />
 
         <Separator className="my-4" />
         <div className="text-md font-semibold">{t('Assets details')}</div>
@@ -77,14 +58,10 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
           {formatNumber(assetsDetails.houseValue)}€
         </div>
         <div className="text-sm">
-          <span className="text-gray-500">{t('Interest Saved')}: </span>
-          {formatNumber(mortgageDetails.totalSavedOnInterest)}€
-        </div>
-        <div className="text-sm">
           <span className="text-gray-500">{t('Savings')}: </span>
-          {formatNumber(assetsDetails.savings)}€ {assetsDetails.savings > 0 && `(${t('Spare money')})`}
+          {formatNumber(assetsDetails.savings)}€
         </div>
-        <CalculatorInfoHouseInflation />
+        <InflationIcon />
 
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
@@ -112,12 +89,6 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
                             <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
                               {t('Remaining Debt')}
                             </th>
-                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
-                              {t('Monthly reduction')}
-                            </th>
-                            <th scope="col" className="px-3 py-3.5 text-sm font-semibold text-gray-900">
-                              {t('Monthly reduction return')}
-                            </th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white">
@@ -127,15 +98,7 @@ export default function CalculatorOnlyRepayment({ calculation, currentTab, initi
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.monthlyPayment)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.interestPaid)}€</td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.principalPaid)}€</td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.remainingDebt > 0 ? detail.remainingDebt : 0)}€</td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.lastRepaymentAmount === 0 ? detail.monthlyPaymentReduction
-                                  ? `${formatNumber(detail.monthlyPaymentReduction)}€ (${t('Which')} ${formatNumber(detail.monthlyPaymentSavedInterest)}€ ${t('Are Interest')})`
-                                  : '-' : `${t('Last Repayment')} ${formatNumber((detail.lastRepaymentAmount - mortgageDetails.estimatedRepayment!) * (-1))}`}
-                              </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {detail.monthlyPaymentReduction ? `${formatNumber(detail.totalInterestSavedWithRepayment)}€` : '-'}
-                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatNumber(detail.remainingDebt)}€</td>
                             </tr>
                           ))}
                         </tbody>
