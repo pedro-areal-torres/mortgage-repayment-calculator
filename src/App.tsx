@@ -9,10 +9,14 @@ import Maintenance from './components/maintenance/maintenance';
 
 function App() {
   const { t } = useTranslation();
+  const onMaintenance = import.meta.env.ON_MAINTENANCE;
 
   const [calculation, setCalculationDetails] = React.useState<CalculationResult>();
 
   const maintenance = false;
+  if (onMaintenance) {
+    <Maintenance />;
+  }
 
   return (
     <>
