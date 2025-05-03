@@ -81,7 +81,10 @@ const resources = {
       'Are Interest': 'are interest',
       'Total Term': 'You will finish paying off your mortgage in ',
       'Last Repayment': 'Last repayment exccess',
-      'Spare money': 'includes excess from the last payment'
+      'Spare money': 'includes excess from the last payment',
+      'Read Article': 'Read article',
+      'Detailed costs': 'Details of costs and earnings',
+      Details: 'Details',
     },
   },
   es: {
@@ -162,7 +165,10 @@ const resources = {
       'Are Interest': 'son intereses',
       'Total Term': 'Terminará de pagar su hipoteca en ',
       'Last Repayment': 'Utimo págo y a sobrado',
-      'Spare money': 'incluye exceso de la última cota'
+      'Spare money': 'incluye exceso de la última cota',
+      'Read Article': 'Leer articulo',
+      'Detailed costs': 'Detalle de costes e ganancias',
+      Details: 'Detalles',
     },
   },
   pt: {
@@ -200,11 +206,11 @@ const resources = {
       Assets: 'Património após',
       Months: 'meses',
       MonthL: 'mês',
-      'Payment details': 'Detalhes da prestação',
+      'Payment details': 'Prestações',
       'House Inflation': 'Considera valorização de 2% da casa desde o ano da compra',
       'Out pocket': 'Saiu do seu bolso',
       House: 'Valor da casa',
-      'Saving for repayment': 'Valor para amortizar / investir',
+      'Saving for repayment': 'Valor a amortizar / investir',
       Total: 'Total',
       'Interest Saved': 'Ao amortizar poupou em juros',
       'Months Saved': 'Antecipou o prazo do empréstimo em',
@@ -235,7 +241,7 @@ const resources = {
       'Read Disclaimer': 'Disclaimer',
       Disclaimer:
         'Esta calculadora foi desenvolvida para ajudar na análise de cenários financeiros relacionados ao crédito habitação e investimentos. No entanto, apesar dos esforços para garantir a precisão dos cálculos, podem ocorrer erros ou imprecisões. Recomendamos sempre consultar um consultor financeiro qualificado antes de tomar qualquer decisão financeira baseada nos resultados fornecidos por esta ferramenta.',
-      Design: 'Desenvolvida e desenhada por',
+      Design: 'Desenvolvida por',
       Result: 'Resultado (ganhos - custos)',
       'Includes tax': 'Impostos sobre mais valias (28%)',
       'Despite reduction': 'As amortizações reduziram o custo total do crédito, mas não houve uma redução do prazo',
@@ -243,7 +249,10 @@ const resources = {
       'Are Interest': 'são juros',
       'Total Term': 'Terminará de pagar o crédito',
       'Last Repayment': 'Amortizou e sobrou',
-      'Spare money': 'inclui excesso da última amortização'
+      'Spare money': 'inclui excesso da última amortização',
+      'Read Article': 'Ler artigo',
+      'Detailed costs': 'Detalhes de custos e ganhos',
+      Details: 'Detalhes',
     },
   },
 };
