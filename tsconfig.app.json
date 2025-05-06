@@ -29,9 +29,9 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"],
-      "@pages/*": ["pages/*"],
       "@lib/*": ["lib/*"],
-      "@types": ["types"]
+      "@types": ["types"],
+      "@context/*": ["context/*"]
     }
   },
   "include": ["src"]
