@@ -13,28 +13,28 @@ export const ResultAssetDetails = ({ houseValue, savings, profit, interestSaved 
 
   return (
     <>
-      <div className="text-md font-semibold mt-4">{t('Assets details')}</div>
-      <div className="text-sm mt-1">
-        <span className="text-gray-500">{t('House')}: </span>
+      <div className='text-md font-semibold mt-4'>{t('Assets details')}</div>
+      <div className='text-sm mt-1'>
+        <span className='text-gray-500'>{t('House')}: </span>
         {formatNumber(houseValue)}€
       </div>
 
       {profit !== undefined && (
-        <div className="text-sm">
-          <span className="text-gray-500">{t('SP Profit')}: </span>
+        <div className='text-sm'>
+          <span className='text-gray-500'>{t('SP Profit')}: </span>
           {formatNumber(profit)}€
         </div>
       )}
 
       {interestSaved !== undefined && (
-        <div className="text-sm">
-          <span className="text-gray-500">{t('Interest Saved')}: </span>
+        <div className='text-sm'>
+          <span className='text-gray-500'>{t('Interest Saved')}: </span>
           {formatNumber(interestSaved)}€
         </div>
       )}
 
-      <div className="text-sm">
-        <span className="text-gray-500">{t('Savings')}: </span>
+      <div className='text-sm'>
+        <span className='text-gray-500'>{t('Savings')}: </span>
         {formatNumber(savings)}€ {savings > 0 && `(${t('Spare money')})`}
       </div>
     </>
