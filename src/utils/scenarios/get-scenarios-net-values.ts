@@ -6,7 +6,11 @@ type NetValueResult = {
   worst: boolean;
 };
 
-export function getScenariosnNetValues(calculation: CalculationResult): Record<string, NetValueResult> {
+export function getScenariosnNetValues(
+  calculation?: CalculationResult,
+): Record<string, NetValueResult> {
+  if (!calculation) throw new Error('No calculation avaialble to getScenariosnNetValues');
+
   const scenarioNetValues: Record<string, number> = {
     noAction: calculation.noAction.overview.net,
     onlyRepayment: calculation.onlyRepayment.overview.net,

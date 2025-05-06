@@ -7,7 +7,7 @@ export function calculateOnlyInvesting(
   amountSaved: number,
   frequency: number,
   investmentAvgReturn: number,
-  noActionDetails: MortgageCalculationResult
+  noActionDetails: MortgageCalculationResult,
 ): MortgageCalculationResult {
   const { mortgageDetails: noActionMortage } = noActionDetails;
 
@@ -16,7 +16,12 @@ export function calculateOnlyInvesting(
   // const savings = Math.floor(termAntecipation / frequency) * amountSaved;
 
   const invested = noActionDetails.assetsDetails.savings;
-  const earnedInvestment = calculateEarnedInvesting(mortgageTermMonths, frequency, amountSaved, investmentAvgReturn);
+  const earnedInvestment = calculateEarnedInvesting(
+    mortgageTermMonths,
+    frequency,
+    amountSaved,
+    investmentAvgReturn,
+  );
   const profit = earnedInvestment - invested;
 
   //const earned = houseValue + profit + savings;

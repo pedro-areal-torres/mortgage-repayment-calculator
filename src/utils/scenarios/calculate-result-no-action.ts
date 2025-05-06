@@ -7,13 +7,22 @@ export function calculateNoAction(
   interestRate: number,
   mortgageTermMonths: number,
   amountSaved: number,
-  frequency: number
+  frequency: number,
 ): MortgageCalculationResult {
   const savingsCount = mortgageTermMonths / frequency;
   const savingRounded = Math.floor(mortgageTermMonths / frequency);
-  const savings = savingsCount - savingRounded === 0 ? amountSaved * (savingRounded - 1) : amountSaved * savingRounded;
+  const savings =
+    savingsCount - savingRounded === 0
+      ? amountSaved * (savingRounded - 1)
+      : amountSaved * savingRounded;
 
-  const mortgageDetails = calculateMortgageDetails(amountInDebt, interestRate, mortgageTermMonths, 0, 0);
+  const mortgageDetails = calculateMortgageDetails(
+    amountInDebt,
+    interestRate,
+    mortgageTermMonths,
+    0,
+    0,
+  );
 
   const earned = houseValue + savings;
   const costs = mortgageDetails.totalCost;

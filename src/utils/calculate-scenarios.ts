@@ -27,7 +27,14 @@ export function calculate({
 }: CalculateProps): CalculationResult {
   const houseValue = calculateHouseValuation(amountPaid, mortgageTermMonths, yearPurchase);
 
-  const noActionDetails = calculateNoAction(houseValue, amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
+  const noActionDetails = calculateNoAction(
+    houseValue,
+    amountInDebt,
+    interestRate,
+    mortgageTermMonths,
+    amountSaved,
+    frequency,
+  );
 
   const onlyRepaymentDetails = calculateOnlyRepayment(
     houseValue,
@@ -36,7 +43,7 @@ export function calculate({
     mortgageTermMonths,
     amountSaved,
     frequency,
-    noActionDetails
+    noActionDetails,
   );
 
   const onlyInvestingDetails = calculateOnlyInvesting(
@@ -45,7 +52,7 @@ export function calculate({
     amountSaved,
     frequency,
     investmentAvgReturn,
-    noActionDetails
+    noActionDetails,
   );
 
   const halfAmountSaved = amountSaved / 2;
@@ -57,7 +64,7 @@ export function calculate({
     halfAmountSaved,
     frequency,
     investmentAvgReturn,
-    noActionDetails
+    noActionDetails,
   );
 
   return {
@@ -68,7 +75,11 @@ export function calculate({
   };
 }
 
-function calculateHouseValuation(amountPaid: number, mortgageTermMonths: number, yearPurchase: number): number {
+function calculateHouseValuation(
+  amountPaid: number,
+  mortgageTermMonths: number,
+  yearPurchase: number,
+): number {
   const annualInterestRate = 1.02;
 
   const today = new Date().getFullYear();

@@ -1,6 +1,11 @@
 import { ChartConfig } from '@components/ui/chart';
 import { CalculationResult } from '@types';
 
+interface Props {
+  calculation?: CalculationResult;
+  currentTab: number;
+}
+
 interface ChartDataEntry {
   date: string;
   netWorth?: number;
@@ -8,7 +13,9 @@ interface ChartDataEntry {
   mortgageBalance?: number;
 }
 
-export function generateNetWorthChartData(calculation: CalculationResult, currentTab: number): ChartDataEntry[] {
+export function generateNetWorthChartData({ calculation, currentTab }: Props): ChartDataEntry[] {
+  if (!calculation) throw new Error('No calculation avaialble');
+
   const currentYear = new Date().getFullYear();
 
   const scenarioMap = ['noAction', 'onlyRepayment', 'onlyInvesting', 'fiftyFifty'] as const;
@@ -25,13 +32,16 @@ export function generateNetWorthChartData(calculation: CalculationResult, curren
 
     const progress = i / yearsLeftMortgage;
 
+    // Net worth
     let netWorth = 0;
     switch (activeScenario) {
       case 'noAction':
         netWorth = selected.overview.net * progress; // linear
         break;
       case 'onlyRepayment':
-        netWorth = selected.overview.net * (progress < 0.33 ? progress * 1.5 : 0.5 + (progress - 0.33) * 0.75);
+        netWorth =
+          selected.overview.net *
+          (progress < 0.33 ? progress * 1.5 : 0.5 + (progress - 0.33) * 0.75);
         break;
       case 'onlyInvesting':
         netWorth = selected.overview.net * Math.pow(progress, 2); // exponential
@@ -40,7 +50,9 @@ export function generateNetWorthChartData(calculation: CalculationResult, curren
         const netRepay = calculation.onlyRepayment.overview.net;
         const netInvest = calculation.onlyInvesting.overview.net;
         const avg =
-          (netRepay * (progress < 0.33 ? progress * 1.5 : 0.5 + (progress - 0.33) * 0.75) + netInvest * Math.pow(progress, 2)) / 2;
+          (netRepay * (progress < 0.33 ? progress * 1.5 : 0.5 + (progress - 0.33) * 0.75) +
+            netInvest * Math.pow(progress, 2)) /
+          2;
         netWorth = avg;
         break;
     }
@@ -50,7 +62,9 @@ export function generateNetWorthChartData(calculation: CalculationResult, curren
     if (activeScenario === 'noAction') {
       liquidity = selected.assetsDetails.savings * progress;
     } else if (activeScenario === 'onlyInvesting') {
-      liquidity = selected.investmentDetails.invested * progress + selected.investmentDetails.profit * Math.pow(progress, 2);
+      liquidity =
+        selected.investmentDetails.invested * progress +
+        selected.investmentDetails.profit * Math.pow(progress, 2);
     } else if (activeScenario === 'fiftyFifty') {
       const repayPortion = (calculation.onlyRepayment.assetsDetails.savings || 0) * progress;
       const investPortion =

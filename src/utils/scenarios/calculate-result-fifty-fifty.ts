@@ -10,9 +10,15 @@ export function calculateFiftyFifty(
   amountSaved: number,
   frequency: number,
   investmentAvgReturn: number,
-  noActionDetails: MortgageCalculationResult
+  noActionDetails: MortgageCalculationResult,
 ): MortgageCalculationResult {
-  const mortgageDetails = calculateMortgageDetails(amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
+  const mortgageDetails = calculateMortgageDetails(
+    amountInDebt,
+    interestRate,
+    mortgageTermMonths,
+    amountSaved,
+    frequency,
+  );
 
   const termAntecipation = mortgageTermMonths - mortgageDetails.totalMonths;
   const investingMonths = mortgageTermMonths - termAntecipation;
@@ -20,7 +26,12 @@ export function calculateFiftyFifty(
   const { assetsDetails: noActionAssets } = noActionDetails;
 
   const invested = mortgageDetails.repaymentDetails.amount;
-  const earnedInvestment = calculateEarnedInvesting(investingMonths, frequency, amountSaved, investmentAvgReturn);
+  const earnedInvestment = calculateEarnedInvesting(
+    investingMonths,
+    frequency,
+    amountSaved,
+    investmentAvgReturn,
+  );
 
   const profit = earnedInvestment - invested;
 

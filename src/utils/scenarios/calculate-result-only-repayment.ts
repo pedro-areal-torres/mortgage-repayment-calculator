@@ -8,9 +8,15 @@ export function calculateOnlyRepayment(
   mortgageTermMonths: number,
   amountSaved: number,
   frequency: number,
-  noActionDetails: MortgageCalculationResult
+  noActionDetails: MortgageCalculationResult,
 ): MortgageCalculationResult {
-  const mortgageDetails = calculateMortgageDetails(amountInDebt, interestRate, mortgageTermMonths, amountSaved, frequency);
+  const mortgageDetails = calculateMortgageDetails(
+    amountInDebt,
+    interestRate,
+    mortgageTermMonths,
+    amountSaved,
+    frequency,
+  );
 
   const { assetsDetails: noActionAssets } = noActionDetails;
   const savings = noActionAssets.savings - mortgageDetails.repaymentDetails.amount;

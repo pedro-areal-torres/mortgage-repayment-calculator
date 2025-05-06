@@ -5,7 +5,7 @@ export function calculateMortgageDetails(
   interestRate: number,
   mortgageTermMonths: number,
   repayment: number,
-  frequency: number
+  frequency: number,
 ): MortgageDetails {
   const monthlyInterestRate = interestRate / 100 / 12;
 
@@ -29,7 +29,11 @@ export function calculateMortgageDetails(
     const remainingTerm = mortgageTermMonths - month;
 
     const previousMonthlyInterest = remainingDebt * monthlyInterestRate;
-    const previousMonthlyPayment = calculateMonthlyPayment(remainingDebt, interestRate, remainingTerm);
+    const previousMonthlyPayment = calculateMonthlyPayment(
+      remainingDebt,
+      interestRate,
+      remainingTerm,
+    );
 
     let hasRepayment = false;
 
@@ -48,7 +52,9 @@ export function calculateMortgageDetails(
       remainingDebt = hasDebt ? remainingDebt : 0;
 
       // Recalculated monthly payment after repayment
-      const newMonthlyPayment = hasDebt ? calculateMonthlyPayment(remainingDebt, interestRate, remainingTerm) : 0;
+      const newMonthlyPayment = hasDebt
+        ? calculateMonthlyPayment(remainingDebt, interestRate, remainingTerm)
+        : 0;
 
       monthlyPayment = newMonthlyPayment;
 
@@ -63,10 +69,13 @@ export function calculateMortgageDetails(
 
     const monthlyPaymentReduction = hasRepayment ? previousMonthlyPayment - monthlyPayment : 0;
     const monthlyPaymentSavedInterest = hasRepayment ? previousMonthlyInterest - interestPaid : 0;
-    const totalInterestSavedWithRepayment = hasRepayment ? Math.max(monthlyPaymentSavedInterest * remainingTerm, 0) : 0;
+    const totalInterestSavedWithRepayment = hasRepayment
+      ? Math.max(monthlyPaymentSavedInterest * remainingTerm, 0)
+      : 0;
 
     const returnOnRepaymentPercentage = hasRepayment
-      ? (((totalInterestSavedWithRepayment + repayment) * 100) / repayment - 100) / (remainingTerm / 12)
+      ? (((totalInterestSavedWithRepayment + repayment) * 100) / repayment - 100) /
+        (remainingTerm / 12)
       : 0;
 
     totalMortgageMonths++;
@@ -95,7 +104,10 @@ export function calculateMortgageDetails(
     }
   }
 
-  const totalSavedOnInterest = monthlyPayments.reduce((prev, curr) => (prev += curr.totalInterestSavedWithRepayment), 0);
+  const totalSavedOnInterest = monthlyPayments.reduce(
+    (prev, curr) => (prev += curr.totalInterestSavedWithRepayment),
+    0,
+  );
 
   return {
     totalMonths: totalMortgageMonths,
@@ -112,16 +124,21 @@ export function calculateMortgageDetails(
   };
 }
 
-export function calculateMonthlyPayment(remainingDebt: number, interestRate: number, remainingTerm: number) {
+export function calculateMonthlyPayment(
+  remainingDebt: number,
+  interestRate: number,
+  remainingTerm: number,
+) {
   const monthlyInterestRate = interestRate / 100 / 12;
 
-  const monthlyPayment = (remainingDebt * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -remainingTerm));
+  const monthlyPayment =
+    (remainingDebt * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -remainingTerm));
 
   return monthlyPayment;
 }
 
 export function calculateInterestSavedOverTime(
-  monthlyPayments: { month: number; totalInterestSavedWithRepayment: number }[]
+  monthlyPayments: { month: number; totalInterestSavedWithRepayment: number }[],
 ): YearlyValue[] {
   const startYear = new Date().getFullYear();
   const yearlyMap: Record<number, number> = {};
