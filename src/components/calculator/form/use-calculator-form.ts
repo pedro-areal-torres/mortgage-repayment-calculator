@@ -1,7 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { calculate } from '@utils/calculator.utils';
+import { calculate } from '@utils/calculate-scenarios';
+import { Dispatch, SetStateAction } from 'react';
+import { CalculationResult } from '@types';
 
 const year = new Date().getFullYear();
 const MAX_AMOUNT = 10000000;
@@ -34,7 +36,12 @@ export const formSchema = z
     message: 'Amount paid should be higher than debt',
   });
 
-export const useCalculatorForm = (setCalculationDetails: (calc: ReturnType<typeof calculate>) => void) => {
+interface Props {
+  setCalculationDetails: Dispatch<SetStateAction<CalculationResult | undefined>>;
+  setShowForm: Dispatch<SetStateAction<boolean>>;
+}
+
+export const useCalculatorForm = ({ setCalculationDetails, setShowForm }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -42,6 +49,7 @@ export const useCalculatorForm = (setCalculationDetails: (calc: ReturnType<typeo
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const result = calculate(values);
     setCalculationDetails(result);
+    setShowForm(false);
   };
 
   return { form, onSubmit };
