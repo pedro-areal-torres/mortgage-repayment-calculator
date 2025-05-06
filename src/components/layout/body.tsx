@@ -1,25 +1,31 @@
-'use client';
-
-import { useState } from 'react';
-import { CalculationResult } from '@utils/calculator.utils';
-import LanguageSwitcher from '@components/language-switcher/language-switcher';
-import CalculatorResultsTable from '@components/calculator/results-table/results-table';
+import CalculatorResults from '@components/calculator/results/results';
 import CalculatorForm from '@components/calculator/form/calculator-form';
+import { cn } from '@lib/tw-merge';
+import { useCalculator } from '@context/useCalculator';
 
 export default function Body() {
-  const [calculation, setCalculationDetails] = useState<CalculationResult>();
+  const { calculation, showForm } = useCalculator();
 
   return (
-    <main className="...">
-      <div className="mx-auto max-w-7xl px-6 py-32 sm:py-40 lg:px-8">
-        <LanguageSwitcher />
-        <div className="bg-white shadow-md ring-1 ring-gray-900/5 sm:rounded-xl">
-          <div className="p-4">
-            <CalculatorForm setCalculationDetails={setCalculationDetails} />
+    <main className='flex flex-row h-full items-center justify-center gap-6 grow px-6 lg:px-8'>
+      <div
+        className={cn(
+          'w-full lg:max-w-3xl',
+          calculation && 'hidden 2xl:block',
+          showForm && 'block',
+        )}
+      >
+        <div className='bg-white shadow-md ring-1 ring-gray-900/5 sm:rounded-xl'>
+          <div className='p-4'>
+            <CalculatorForm />
           </div>
         </div>
-        <CalculatorResultsTable calculation={calculation} />
       </div>
+      {calculation && !showForm && (
+        <div className={'w-full h-full'}>
+          <CalculatorResults />
+        </div>
+      )}
     </main>
   );
 }

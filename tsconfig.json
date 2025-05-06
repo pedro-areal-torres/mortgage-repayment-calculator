@@ -14,8 +14,9 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"],
-      "@pages/*": ["pages/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@types": ["types"],
+      "@context/*": ["context/*"]
     }
   }
 }
