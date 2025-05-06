@@ -12,7 +12,7 @@ function App() {
   }
 
   return (
-    <div className="bg-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-t from-green-200 to-green-50">
       <Header />
       <Body />
       <Footer />
