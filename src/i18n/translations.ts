@@ -89,7 +89,8 @@ const resources = {
       netWorth: 'Net worth',
       liquidity: 'Liquidity',
       mortgageBalance: 'Debt',
-      chartNotAtScale: 'Chart not at scale. Values illustrate trends and do not represent exact linear growth.',
+      chartNotAtScale:
+        'Chart not at scale. Values illustrate trends and do not represent exact linear growth.',
     },
   },
   es: {
@@ -118,7 +119,8 @@ const resources = {
       '2 by 2 y': 'Cada 2 años',
       '3 by 3 y': 'Cada 3 años',
       '5 by 5 y': 'Cada 5 años',
-      'Calculator info': 'Rellena los valores partiendo de la suposición de que quieres amortizar tu crédito hipotecario',
+      'Calculator info':
+        'Rellena los valores partiendo de la suposición de que quieres amortizar tu crédito hipotecario',
       'Mortgage Cost': 'Costo del capital en deuda',
       Required: 'Campo obligatorio',
       'Number must be greater than 0': 'El valor debe ser positivo',
@@ -178,7 +180,8 @@ const resources = {
       netWorth: 'Valor neto',
       liquidity: 'Liquidez',
       mortgageBalance: 'Deuda',
-      chartNotAtScale: 'Gráfico no a escala. Los valores ilustran tendencias y no representan un crecimiento lineal exacto.',
+      chartNotAtScale:
+        'Gráfico no a escala. Los valores ilustran tendencias y no representan un crecimiento lineal exacto.',
     },
   },
   pt: {
@@ -207,7 +210,8 @@ const resources = {
       '2 by 2 y': '2 em 2 anos',
       '3 by 3 y': '3 em 3 anos',
       '5 by 5 y': '5 em 5 anos',
-      'Calculator info': 'Preencha os valores partindo do pressuposto que pretende amortizar o seu crédito habitação',
+      'Calculator info':
+        'Preencha os valores partindo do pressuposto que pretende amortizar o seu crédito habitação',
       'Mortgage Cost': 'Capital em dívida',
       Required: 'Campo obrigatório',
       'Number must be greater than 0': 'Valor deve ser positivo',
@@ -254,7 +258,8 @@ const resources = {
       Design: 'Desenvolvida por',
       Result: 'Resultado (ganhos - custos)',
       'Includes tax': 'Impostos sobre mais valias (28%)',
-      'Despite reduction': 'As amortizações reduziram o custo total do crédito, mas não houve uma redução do prazo',
+      'Despite reduction':
+        'As amortizações reduziram o custo total do crédito, mas não houve uma redução do prazo',
       Which: 'dos quais',
       'Are Interest': 'são juros',
       'Total Term': 'Terminará de pagar o crédito',
@@ -267,7 +272,8 @@ const resources = {
       netWorth: 'Resultado líquido',
       liquidity: 'Liquidez',
       mortgageBalance: 'Dívida',
-      chartNotAtScale: 'Gráfico fora de escala. Os valores ilustram tendências e não representam um crescimento linear exato.',
+      chartNotAtScale:
+        'Gráfico fora de escala. Os valores ilustram tendências e não representam um crescimento linear exato.',
     },
   },
 };
