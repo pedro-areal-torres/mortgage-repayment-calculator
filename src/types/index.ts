@@ -14,6 +14,7 @@ export interface MortgageCalculationResult {
 
 export interface MonthlyPaymentDetails {
   month: number;
+  year: number;
   monthlyPayment: number;
   interestPaid: number;
   principalPaid: number;
@@ -23,6 +24,7 @@ export interface MonthlyPaymentDetails {
   totalInterestSavedWithRepayment: number;
   returnOnRepaymentPercentage: number;
   lastRepaymentAmount: number;
+  leftOverFromLastRepayment: number;
 }
 
 export interface MortgageDetails {
@@ -34,6 +36,11 @@ export interface MortgageDetails {
   estimatedRepayment?: number;
   monthlyPayments: MonthlyPaymentDetails[];
   repaymentDetails: RepaymentDetails;
+}
+
+export interface YearlyValue {
+  year: number;
+  value: number;
 }
 
 interface OverviewDetails {
