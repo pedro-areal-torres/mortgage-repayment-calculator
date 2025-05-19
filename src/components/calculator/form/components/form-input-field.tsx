@@ -5,7 +5,7 @@ import { Input } from '@components/ui/input';
 import { cn } from '@lib/tw-merge';
 import { useTranslation } from 'react-i18next';
 
-interface Props {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   placeholder: string;
   adornment?: string;
@@ -23,6 +23,7 @@ export default function FormFieldWithAdornment({
   step = 'any',
   label,
   type = 'number',
+  ...props
 }: Props) {
   const { t } = useTranslation();
 
@@ -41,6 +42,7 @@ export default function FormFieldWithAdornment({
                 placeholder={placeholder}
                 {...field}
                 className='flex w-full flex-col'
+                {...props}
               />
               {adornment && (
                 <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'>

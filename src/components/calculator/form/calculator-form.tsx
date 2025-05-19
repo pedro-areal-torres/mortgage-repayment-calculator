@@ -26,6 +26,7 @@ export default function CalculatorForm() {
             control={form.control}
             placeholder='2025'
             label='Year of Purchase'
+            autoFocus
           />
           <FormInputField
             name='amountPaid'
