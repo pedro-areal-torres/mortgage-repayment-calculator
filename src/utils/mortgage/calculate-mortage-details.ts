@@ -1,4 +1,4 @@
-import { MonthlyPaymentDetails, MortgageDetails, YearlyValue } from '@types';
+import { MonthlyPaymentDetails, MortgageDetails } from '@types';
 
 export function calculateMortgageDetails(
   amountInDebt: number,
@@ -135,18 +135,4 @@ export function calculateMonthlyPayment(
     (remainingDebt * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -remainingTerm));
 
   return monthlyPayment;
-}
-
-export function calculateInterestSavedOverTime(
-  monthlyPayments: { month: number; totalInterestSavedWithRepayment: number }[],
-): YearlyValue[] {
-  const startYear = new Date().getFullYear();
-  const yearlyMap: Record<number, number> = {};
-
-  for (const payment of monthlyPayments) {
-    const year = startYear + Math.floor((payment.month - 1) / 12);
-    yearlyMap[year] = (yearlyMap[year] || 0) + payment.totalInterestSavedWithRepayment;
-  }
-
-  return Object.entries(yearlyMap).map(([year, value]) => ({ year: +year, value }));
 }

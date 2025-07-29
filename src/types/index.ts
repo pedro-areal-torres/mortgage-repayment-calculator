@@ -34,13 +34,9 @@ export interface MortgageDetails {
   totalDebt: number;
   totalSavedOnInterest: number;
   estimatedRepayment?: number;
+  interestSavedIfKeepPayment?: number;
   monthlyPayments: MonthlyPaymentDetails[];
   repaymentDetails: RepaymentDetails;
-}
-
-export interface YearlyValue {
-  year: number;
-  value: number;
 }
 
 interface OverviewDetails {
