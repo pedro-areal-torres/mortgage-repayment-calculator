@@ -6,9 +6,16 @@ interface Props {
   savings: number;
   profit?: number;
   interestSaved?: number;
+  interestSavedIfKeepPayment?: number;
 }
 
-export const ResultAssetDetails = ({ houseValue, savings, profit, interestSaved }: Props) => {
+export const ResultAssetDetails = ({
+  houseValue,
+  savings,
+  profit,
+  interestSaved,
+  interestSavedIfKeepPayment,
+}: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -30,6 +37,14 @@ export const ResultAssetDetails = ({ houseValue, savings, profit, interestSaved 
         <div className='text-sm'>
           <span className='text-gray-500'>{t('Interest Saved')}: </span>
           {formatNumber(interestSaved)}€
+          {interestSavedIfKeepPayment !== undefined && (
+            <>
+              {' '}
+              ({t('Aditional Saved')}{' '}
+              <span className='font-bold'>+{formatNumber(interestSavedIfKeepPayment!)}</span>{' '}
+              {t('Keep Monthly Payment')})
+            </>
+          )}
         </div>
       )}
 

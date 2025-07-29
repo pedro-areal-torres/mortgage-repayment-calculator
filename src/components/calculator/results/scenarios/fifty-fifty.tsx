@@ -49,6 +49,16 @@ export default function FiftyFiftyResult() {
           <span className='text-gray-500'>{t('Amount Invested')}: </span>
           {formatNumber(investmentDetails.invested)}€
         </div>
+
+        <div className='text-sm'>
+          <span className='text-gray-500'>{t('Interest Saved')}: </span>
+          {formatNumber(mortgageDetails.totalSavedOnInterest)}€ ({t('Aditional Saved')}{' '}
+          <span className='font-bold'>
+            +{formatNumber(mortgageDetails.interestSavedIfKeepPayment!)}
+          </span>{' '}
+          {t('Keep Monthly Payment')})
+        </div>
+
         <div className='text-sm'>
           {termReduction === 0 ? (
             <span className='text-gray-500'>{t('Despite reduction')}</span>
@@ -79,6 +89,7 @@ export default function FiftyFiftyResult() {
               savings={assetsDetails.savings}
               profit={investmentDetails.profit}
               interestSaved={mortgageDetails.totalSavedOnInterest}
+              interestSavedIfKeepPayment={mortgageDetails.interestSavedIfKeepPayment}
             />
 
             <InflationInfo />

@@ -91,6 +91,8 @@ const resources = {
       mortgageBalance: 'Debt',
       chartNotAtScale:
         'Chart not at scale. Values illustrate trends and do not represent exact linear growth.',
+      'Keep Monthly Payment': 'if you asked the bank to reduce the term with each installment',
+      'Aditional Saved': 'you would save even',
     },
   },
   es: {
@@ -182,6 +184,8 @@ const resources = {
       mortgageBalance: 'Deuda',
       chartNotAtScale:
         'Gráfico no a escala. Los valores ilustran tendencias y no representan un crecimiento lineal exacto.',
+      'Keep Monthly Payment': 'si pidiera al banco reducir el plazo en cada cuota',
+      'Aditional Saved': 'ahorraría aún',
     },
   },
   pt: {
@@ -274,6 +278,8 @@ const resources = {
       mortgageBalance: 'Dívida',
       chartNotAtScale:
         'Gráfico fora de escala. Os valores ilustram tendências e não representam um crescimento linear exato.',
+      'Keep Monthly Payment': 'caso pedisse ao banco para reduzir o prazo em cada prestação',
+      'Aditional Saved': 'pouparia ainda',
     },
   },
 };

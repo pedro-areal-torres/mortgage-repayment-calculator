@@ -1,5 +1,6 @@
 import { MortgageCalculationResult } from '@types';
 import { calculateEarnedInvesting } from '@utils/investing/calculate-earned-investing';
+import { calculateInterestSavedIfKeepPayment } from '@utils/mortgage/calculate-interest-saved-keep-repayment';
 import { calculateMortgageDetails } from '@utils/mortgage/calculate-mortage-details';
 
 export function calculateFiftyFifty(
@@ -24,6 +25,15 @@ export function calculateFiftyFifty(
   const investingMonths = mortgageTermMonths - termAntecipation;
 
   const { assetsDetails: noActionAssets } = noActionDetails;
+
+  const interestSavedIfKeepPayment = calculateInterestSavedIfKeepPayment({
+    amountInDebt,
+    interestRate,
+    repayment: amountSaved,
+    frequency,
+    monthlyPayments: noActionDetails.mortgageDetails.monthlyPayments,
+    interestPaid: mortgageDetails.totalInterest,
+  });
 
   const invested = mortgageDetails.repaymentDetails.amount;
   const earnedInvestment = calculateEarnedInvesting(
@@ -50,7 +60,10 @@ export function calculateFiftyFifty(
       houseValue,
       savings,
     },
-    mortgageDetails,
+    mortgageDetails: {
+      ...mortgageDetails,
+      interestSavedIfKeepPayment,
+    },
     investmentDetails: {
       profit,
       invested,
