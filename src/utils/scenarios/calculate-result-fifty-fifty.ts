@@ -47,7 +47,7 @@ export function calculateFiftyFifty(
 
   const savings = noActionAssets.savings - mortgageDetails.repaymentDetails.amount - invested;
 
-  const earned = houseValue + mortgageDetails.totalSavedOnInterest + profit + savings;
+  const earned = houseValue + mortgageDetails.totalSavedOnInterest + profit + savings + invested;
   const costs = mortgageDetails.totalCost + 0.28 * profit;
 
   return {

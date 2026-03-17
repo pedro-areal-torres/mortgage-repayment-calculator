@@ -25,7 +25,7 @@ export function calculateOnlyInvesting(
   const profit = earnedInvestment - invested;
 
   //const earned = houseValue + profit + savings;
-  const earned = houseValue + profit;
+  const earned = houseValue + profit + invested;
   const costs = noActionMortage.totalCost + 0.28 * profit;
 
   return {

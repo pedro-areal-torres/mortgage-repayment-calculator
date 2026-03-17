@@ -88,6 +88,7 @@ export default function FiftyFiftyResult() {
               houseValue={assetsDetails.houseValue}
               savings={assetsDetails.savings}
               profit={investmentDetails.profit}
+              invested={investmentDetails.invested}
               interestSaved={mortgageDetails.totalSavedOnInterest}
               interestSavedIfKeepPayment={mortgageDetails.interestSavedIfKeepPayment}
             />
