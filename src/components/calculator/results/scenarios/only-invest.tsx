@@ -61,6 +61,7 @@ export default function OnlyInvestResult() {
               houseValue={assetsDetails.houseValue}
               savings={assetsDetails.savings}
               profit={investmentDetails.profit}
+              invested={investmentDetails.invested}
             />
 
             <div className='flex flex-row gap-1 items-center mt-2'>
