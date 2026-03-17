@@ -13,7 +13,6 @@ import { calculateEndMortgageDate } from '@utils/mortgage/calculate-end-mortgage
 import { ResultResume } from './common/result-resume';
 import { ResultCostDetails } from './common/result-cost-details';
 import { ResultAssetDetails } from './common/result-asset-details';
-import { formatNumber } from '@utils/format-number';
 
 export default function NoActionResult() {
   const { t } = useTranslation();
