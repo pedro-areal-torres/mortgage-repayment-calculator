@@ -76,6 +76,23 @@ export default function FiftyFiftyResult() {
 
         <div className='flex flex-row w-full justify-between items-center'>
           <DetailsSheet rows={mortgageDetails.monthlyPayments} showReduction>
+            <ResultResume
+              totalAssets={overview.earned}
+              outOfPocket={overview.costs}
+              netResult={overview.net}
+            />
+            <div className='text-sm'>
+              <span className='text-gray-500'>{t('Total Term')}: </span>
+              {calculateEndMortgageDate(mortgageDetails.totalMonths)} ({mortgageDetails.totalMonths}{' '}
+              {t('Months')})
+            </div>
+            <div className='text-sm'>
+              <span className='text-gray-500'>{t('Repayment done')}: </span>
+              {formatNumber(mortgageDetails.repaymentDetails.amount)}€
+            </div>
+
+            <Separator className='my-4' />
+
             <ResultCostDetails
               totalDebt={mortgageDetails.totalDebt}
               totalInterest={mortgageDetails.totalInterest}

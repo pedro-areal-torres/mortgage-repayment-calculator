@@ -13,6 +13,7 @@ import { calculateEndMortgageDate } from '@utils/mortgage/calculate-end-mortgage
 import { ResultResume } from './common/result-resume';
 import { ResultCostDetails } from './common/result-cost-details';
 import { ResultAssetDetails } from './common/result-asset-details';
+import { formatNumber } from '@utils/format-number';
 
 export default function NoActionResult() {
   const { t } = useTranslation();
@@ -42,21 +43,32 @@ export default function NoActionResult() {
 
         <div className='flex flex-row w-full justify-between items-center'>
           <DetailsSheet rows={mortgageDetails.monthlyPayments}>
-            <>
-              <ResultCostDetails
-                totalDebt={mortgageDetails.totalDebt}
-                totalInterest={mortgageDetails.totalInterest}
-              />
+            <ResultResume
+              totalAssets={overview.earned}
+              outOfPocket={overview.costs}
+              netResult={overview.net}
+            />
+            <div className='text-sm'>
+              <span className='text-gray-500'>{t('Total Term')}: </span>
+              {calculateEndMortgageDate(mortgageDetails.totalMonths)} ({mortgageDetails.totalMonths}{' '}
+              {t('Months')})
+            </div>
 
-              <Separator className='my-4' />
+            <Separator className='my-4' />
 
-              <ResultAssetDetails
-                houseValue={assetsDetails.houseValue}
-                savings={assetsDetails.savings}
-              />
+            <ResultCostDetails
+              totalDebt={mortgageDetails.totalDebt}
+              totalInterest={mortgageDetails.totalInterest}
+            />
 
-              <InflationInfo />
-            </>
+            <Separator className='my-4' />
+
+            <ResultAssetDetails
+              houseValue={assetsDetails.houseValue}
+              savings={assetsDetails.savings}
+            />
+
+            <InflationInfo />
           </DetailsSheet>
 
           <ButtonBack />

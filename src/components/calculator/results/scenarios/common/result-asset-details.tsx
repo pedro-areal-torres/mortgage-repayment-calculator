@@ -48,20 +48,20 @@ export const ResultAssetDetails = ({
         {formatNumber(savings)}€ {savings > 0 && `(${t('Spare money')})`}
       </div>
 
-      <div className='text-sm font-semibold mt-2'>{t('Capital at Risk')}</div>
+      {invested && profit && (
+        <>
+          <div className='text-sm underline mt-2'>{t('Capital at Risk')}</div>
 
-      {profit && (
-        <div className='text-sm'>
-          <span className='text-gray-500'>{t('SP Profit')}: </span>
-          {formatNumber(profit)}€
-        </div>
-      )}
+          <div className='text-sm'>
+            <span className='text-gray-500'>{t('SP Profit')}: </span>
+            {formatNumber(profit)}€
+          </div>
 
-      {invested && (
-        <div className='text-sm'>
-          <span className='text-gray-500'>{t('Amount Invested')}: </span>
-          {formatNumber(invested)}€
-        </div>
+          <div className='text-sm'>
+            <span className='text-gray-500'>{t('Amount Invested')}: </span>
+            {formatNumber(invested)}€
+          </div>
+        </>
       )}
     </>
   );
