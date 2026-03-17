@@ -13,6 +13,16 @@ interface Props {
 export const useCalculatorForm = ({ setCalculation, setShowForm }: Props) => {
   const form = useForm<z.infer<typeof calculatorFormSchema>>({
     resolver: zodResolver(calculatorFormSchema),
+    defaultValues: {
+      yearPurchase: 2025,
+      amountPaid: 200000,
+      amountInDebt: 180000,
+      interestRate: 5,
+      mortgageTermMonths: 420,
+      amountSaved: 1000,
+      investmentAvgReturn: 5.9,
+      frequency: 12,
+    },
   });
 
   const onSubmit = (values: z.infer<typeof calculatorFormSchema>) => {
